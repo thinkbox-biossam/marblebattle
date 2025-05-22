@@ -522,7 +522,7 @@
         let selectedSortCriterion = 'survivalTime'; 
 
         const PLAYER_RADIUS_BASE = 8; 
-        let PLAYER_RADIUS = PLAYER_RADIUS_BASE + 4; // 플레이어 크기 증가 (12px)
+        let PLAYER_RADIUS = PLAYER_RADIUS_BASE + 4; 
 
         const PLAYER_HP_BASE = 100; 
         let PLAYER_HP = PLAYER_HP_BASE; 
@@ -544,8 +544,8 @@
         
         const ITEM_RADIUS = 6; 
         const OBSTACLE_MIN_SIZE = 30;
-        const OBSTACLE_MAX_SIZE = 70; // 직사각형 장애물을 위해 최대 크기 약간 늘림
-        const OBSTACLE_MAX_LENGTH_FACTOR = 2.0; // 직사각형 장애물의 최대 길이 비율 (정사각형 대비)
+        const OBSTACLE_MAX_SIZE = 70; 
+        const OBSTACLE_MAX_LENGTH_FACTOR = 2.0; 
         const NUM_OBSTACLES_BASE = 4; 
         const NUM_PITS_BASE = 2; 
         const NUM_SPECIAL_TERRAIN_BASE = 3; 
@@ -572,8 +572,8 @@
         const PREDEFINED_COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FED766', '#2AB7CA', '#F0C419', '#A2D4AB', '#F8A5C2', '#8785A2', '#FFD166', '#06D6A0', '#118AB2', '#EF476F', '#FF9F1C', '#540D6E'];
         let colorIndex = 0;
 
-        const NAME_OFFSET_Y = PLAYER_RADIUS + 10; // 이름 Y축 위치 조정 (플레이어 크기 및 원형 궁극기 게이지 고려)
-        const HP_BAR_OFFSET_Y = PLAYER_RADIUS + 2;  // HP 바 Y축 위치 조정 (플레이어 원 바로 위, 궁극기 게이지 안쪽)
+        const NAME_OFFSET_Y = PLAYER_RADIUS + 10; 
+        const HP_BAR_OFFSET_Y = PLAYER_RADIUS + 2;  
 
 
         // --- A* 경로 탐색 알고리즘 (이전과 동일) ---
@@ -725,7 +725,7 @@
                 } else if (this.type === 'projectile') {
                     ctx.beginPath();
                     let projectileRadius = PLAYER_RADIUS / (this.customData.sizeFactor || 2);
-                    projectileRadius = Math.max(0.1, projectileRadius); // 반지름 음수 방지
+                    projectileRadius = Math.max(0.1, projectileRadius); 
                     ctx.arc(this.px, this.py, projectileRadius , 0, Math.PI * 2);
                     ctx.fillStyle = this.color;
                     ctx.shadowColor = this.color; 
@@ -738,7 +738,7 @@
                             ctx.globalAlpha = 0.5 * (1 - i/trailLength);
                             ctx.beginPath();
                             let currentTrailRadius = baseTrailRadius * (1 - i/trailLength);
-                            currentTrailRadius = Math.max(0.1, currentTrailRadius); // 반지름 음수 방지
+                            currentTrailRadius = Math.max(0.1, currentTrailRadius); 
                             ctx.arc(this.px - this.pvx * i * 0.2, this.py - this.pvy * i * 0.2, currentTrailRadius, 0, Math.PI * 2);
                             ctx.fillStyle = this.color;
                             ctx.fill();
@@ -765,7 +765,7 @@
                     this.trail.forEach((p, index) => {
                         ctx.beginPath();
                         let trailParticleRadius = PLAYER_RADIUS / 2.5 * p.opacity;
-                        trailParticleRadius = Math.max(0.1, trailParticleRadius); // 반지름 음수 방지
+                        trailParticleRadius = Math.max(0.1, trailParticleRadius); 
                         ctx.arc(p.x, p.y, trailParticleRadius, 0, Math.PI * 2);
                         ctx.fillStyle = this.color;
                         ctx.globalAlpha = p.opacity * 0.7;
@@ -774,7 +774,7 @@
                     ctx.globalAlpha = 1;
                     ctx.beginPath();
                     let magicBoltRadius = PLAYER_RADIUS / 2;
-                    magicBoltRadius = Math.max(0.1, magicBoltRadius); // 반지름 음수 방지
+                    magicBoltRadius = Math.max(0.1, magicBoltRadius); 
                     ctx.arc(this.px, this.py, magicBoltRadius, 0, Math.PI * 2);
                     ctx.fillStyle = this.color;
                     ctx.shadowColor = this.color; 
@@ -806,14 +806,25 @@
                 this.speed = PLAYER_SPEED_BASE_VAL;
                 this.isHiding = false; 
 
+                // 특성 적용
                 if (this.perk === 'toughness') {
                     this.hp += 15;
                     this.maxHp += 15;
                 } else if (this.perk === 'swiftness') {
                     this.speed *= 1.10;
                 }
+                // Brawler HP 버프 (특성과 중첩 가능)
+                if (this.job === PLAYER_CLASSES['Brawler']) {
+                    this.hp += 5;
+                    this.maxHp += 5;
+                }
+                // Berserker 공격력 버프
+                if (this.job === PLAYER_CLASSES['Berserker']) {
+                    this.attackPower = ATTACK_POWER_BASE + 0.5;
+                } else {
+                    this.attackPower = ATTACK_POWER_BASE;
+                }
                 
-                this.attackPower = ATTACK_POWER_BASE;
                 this.attackRange = this.job === PLAYER_CLASSES['Archer'] || this.job === PLAYER_CLASSES['Mage'] ? ATTACK_RANGE_RANGED : ATTACK_RANGE_MELEE;
                 this.attackCooldown = 0;
                 this.target = null;
@@ -1081,7 +1092,8 @@
                         }
                     });
 
-                    if (closestBush && minDistToBush < this.attackRange * 1.5 && Math.random() < 0.25 && this.hp > this.maxHp * 0.6) { 
+                    const hideChance = (this.job === PLAYER_CLASSES['Brawler'] || this.job === PLAYER_CLASSES['Berserker']) ? 0.03 : 0.20; // 근접 직업 숨는 확률 더 낮춤
+                    if (closestBush && minDistToBush < this.attackRange * 1.5 && Math.random() < hideChance && this.hp > this.maxHp * 0.6) { 
                         this.target = { x: closestBush.x + closestBush.width/2, y: closestBush.y + closestBush.height/2, isAlive: false, type: 'bush' };
                         this.targetItem = null;
                         if (minDistToBush < this.radius + closestBush.width/2) { 
@@ -1195,7 +1207,8 @@
 
                 let teamAttacker = null;
                 allPlayersRef.forEach(ally => {
-                    if (ally.baseName === this.baseName && ally !== this && ally.lastAttacker && ally.lastAttacker.isAlive && ally.lastAttacker !== this) {
+                    if (ally.baseName === this.baseName && ally !== this && ally.isAlive && ally.lastAttacker && ally.lastAttacker.isAlive && ally.lastAttacker !== this) {
+                        // 팀원이 공격받고 있다면, 그 공격자를 우선 타겟으로 설정
                         if (!teamAttacker || ally.lastAttacker.hp < teamAttacker.hp) { 
                             teamAttacker = ally.lastAttacker;
                         }
@@ -1203,6 +1216,7 @@
                 });
                 if (teamAttacker) {
                     this.target = teamAttacker;
+                    logBattleMessage(`${this.name}이(가) 팀원 ${teamAttacker.lastAttacker.name}을(를) 돕기 위해 ${teamAttacker.name}을(를) 공격합니다!`, 'log-event');
                     return;
                 }
 
@@ -1224,6 +1238,14 @@
 
                     if (alivePlayerCount > 3 && p.hp > PLAYER_HP_BASE * 0.7) {
                         score += 30; 
+                    }
+                    if (this.job === PLAYER_CLASSES['Brawler'] && this.hp > this.maxHp * 0.6) { 
+                        score += (PLAYER_RADIUS * 12 - distance) / 2.5; 
+                        if (p.hp < PLAYER_HP_BASE * 0.45) score += 25; 
+                    }
+                    if (this.job === PLAYER_CLASSES['Berserker']) {
+                        if (this.isUltimateActive) score += 75; 
+                        if (this.hp < this.maxHp * 0.55) score += 25; // HP 낮을수록 공격적
                     }
 
 
@@ -1490,7 +1512,7 @@
                             const distance = Math.hypot(this.x - p.x, this.y - p.y);
                             if (distance <= ultimateRange) {
                                 p.takeDamage(ultimateDamage, this);
-                                p.takeKnockback(this.x, this.y, 80); 
+                                p.takeKnockback(this.x, this.y, 90); // 돌격자 궁극기 넉백 상향
                                 p.evadeTimer = 90 / gameSpeedMultiplier; 
                             }
                         }
@@ -1498,6 +1520,9 @@
                 } else if (this.job === PLAYER_CLASSES['Berserker']) {
                     ultimateName = "<<광전사의 분노>>";
                     logBattleMessage(`😡 ${this.name}(${this.job})의 필살기 ${ultimateName}! 공격력과 속도가 폭주합니다!`, 'log-ultimate');
+                    // 버서커 궁극기 시 공격력 배율 상향
+                    this.originalAttackPower = this.attackPower; // 원래 공격력 저장
+                    this.attackPower *= 2.0; // 궁극기 시 공격력 2배
                     for(let i=0; i<10; i++) { 
                         particles.push(new Particle(this.x, this.y, 'red', 3, 30, (Math.random()-0.5)*6, (Math.random()-0.5)*6));
                     }
@@ -1505,20 +1530,21 @@
                     ultimateName = "<<화살 폭풍>>";
                     logBattleMessage(`🏹 ${this.name}(${this.job})의 필살기 ${ultimateName}! 여러 방향으로 강화된 화살을 난사합니다!`, 'log-ultimate');
                     const numArrows = 12;
+                    const ultArrowRange = ATTACK_RANGE_RANGED * 0.9; // 궁수 궁극기 범위 하향 조정
                     for (let i = 0; i < numArrows; i++) { 
                         const angle = (i / numArrows) * Math.PI * 2 + (Math.random() - 0.5) * 0.2; 
-                        const endX = this.x + Math.cos(angle) * ATTACK_RANGE_RANGED * 1.2; 
-                        const endY = this.y + Math.sin(angle) * ATTACK_RANGE_RANGED * 1.2;
+                        const endX = this.x + Math.cos(angle) * ultArrowRange; 
+                        const endY = this.y + Math.sin(angle) * ultArrowRange;
                         attackEffects.push(new AttackEffect(this.x, this.y, endX, endY, 'cyan', 2, 8, 'projectile', {trail: true, sizeFactor: 1.8, speed: 22, shadow: 12}));
                         players.forEach(p => { 
-                            if (p !== this && p.isAlive && Math.hypot(p.x - this.x, p.y - this.y) < ATTACK_RANGE_RANGED * 0.8) { 
+                            if (p !== this && p.isAlive && Math.hypot(p.x - this.x, p.y - this.y) < ultArrowRange * 0.7) { 
                                 p.takeDamage(this.attackPower * 0.6 * (this.activeItemEffects['attackBoost'] > 0 ? 1.5 : 1), this); 
                             }
                         });
                     }
                 } else if (this.job === PLAYER_CLASSES['Mage']) {
                     ultimateName = "<<얼음 폭풍>>";
-                    const stormRadius = this.radius * 12; 
+                    const stormRadius = this.radius * 9; // 마법사 궁극기 범위 하향 조정
                     logBattleMessage(`❄️ ${this.name}(${this.job})의 필살기 ${ultimateName}! 지정 범위에 강력한 얼음 폭풍을 소환합니다!`, 'log-ultimate');
                      attackEffects.push({ 
                         x: this.x, y: this.y, radius: stormRadius, 
@@ -1554,6 +1580,10 @@
             }
             deactivateUltimate() {
                 this.isUltimateActive = false;
+                if (this.job === PLAYER_CLASSES['Berserker'] && this.originalAttackPower) {
+                    this.attackPower = this.originalAttackPower; // 원래 공격력으로 복원
+                    delete this.originalAttackPower;
+                }
                 logBattleMessage(`✨ ${this.name} 플레이어의 필살기 효과가 종료되었습니다.`, 'log-ultimate');
             }
             
@@ -1780,30 +1810,33 @@
         // 배경 그리기 함수 (정적 이미지 스타일로 변경)
         function drawBackground(theme) {
             ctx.clearRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
+            // 배경은 카메라 변환과 독립적으로 고정되어 그려짐
+            ctx.save();
+            ctx.setTransform(1, 0, 0, 1, 0, 0); // 카메라 변환 리셋
 
             if (theme === 'default') {
                 const gradient = ctx.createLinearGradient(0, 0, 0, gameCanvasEl.height);
-                gradient.addColorStop(0, '#0a0a18'); // 더 깊은 우주색
+                gradient.addColorStop(0, '#0a0a18'); 
                 gradient.addColorStop(1, '#18182c');
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
 
-                for (let i = 0; i < 200; i++) { 
+                for (let i = 0; i < 150; i++) { 
                     const x = Math.random() * gameCanvasEl.width;
                     const y = Math.random() * gameCanvasEl.height;
-                    const radius = Math.random() * 1.0 + 0.2; // 별 크기 미세 조정
-                    const alpha = Math.random() * 0.5 + 0.1; // 별 밝기 다양화
+                    const radius = Math.random() * 0.8 + 0.2; 
+                    const alpha = Math.random() * 0.4 + 0.1; 
                     ctx.fillStyle = `rgba(255, 255, 230, ${alpha})`;
                     ctx.beginPath();
                     ctx.arc(x, y, radius, 0, Math.PI * 2);
                     ctx.fill();
                 }
                 ctx.save();
-                ctx.globalAlpha = 0.03; // 성운 더 희미하게
-                for(let i=0; i<2; i++){ // 성운 개수 줄임
-                    ctx.fillStyle = `hsla(${190 + Math.random()*60}, 60%, 50%, 0.4)`;
+                ctx.globalAlpha = 0.02; 
+                for(let i=0; i<1; i++){ 
+                    ctx.fillStyle = `hsla(${190 + Math.random()*60}, 50%, 40%, 0.3)`; 
                     ctx.beginPath();
-                    ctx.arc(Math.random()*gameCanvasEl.width, Math.random()*gameCanvasEl.height, Math.random()*gameCanvasEl.width/4 + gameCanvasEl.width/5, 0, Math.PI*2);
+                    ctx.arc(Math.random()*gameCanvasEl.width, Math.random()*gameCanvasEl.height, Math.random()*gameCanvasEl.width/3 + gameCanvasEl.width/6, 0, Math.PI*2);
                     ctx.fill();
                 }
                 ctx.restore();
@@ -1811,77 +1844,75 @@
             } else if (theme === 'forest') {
                 const gradient = ctx.createLinearGradient(0, 0, 0, gameCanvasEl.height);
                 gradient.addColorStop(0, '#101810'); 
-                gradient.addColorStop(0.5, '#1d2a1d');
-                gradient.addColorStop(1, '#283828'); 
+                gradient.addColorStop(0.5, '#182518'); 
+                gradient.addColorStop(1, '#203020'); 
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
 
-                const treeColors = ['#152515', '#1c301c', '#223822'];
-                for (let layer = 0; layer < 3; layer++) {
-                    for (let i = 0; i < 12 - layer * 3; i++) {
-                        const treeX = (i * (gameCanvasEl.width / (11 - layer*3))) + (Math.random() - 0.5) * 40;
-                        const treeHeight = gameCanvasEl.height * (0.3 + Math.random() * 0.4 + layer * 0.05);
-                        const treeWidth = 30 + Math.random() * 25 + layer * 8;
+                const treeColors = ['#102010', '#152815', '#1a301a']; 
+                for (let layer = 0; layer < 2; layer++) { 
+                    for (let i = 0; i < 8 - layer * 2; i++) { 
+                        const treeX = (i * (gameCanvasEl.width / (7 - layer*2))) + (Math.random() - 0.5) * 30;
+                        const treeHeight = gameCanvasEl.height * (0.25 + Math.random() * 0.3 + layer * 0.03); 
+                        const treeWidth = 25 + Math.random() * 20 + layer * 5; 
                         ctx.fillStyle = treeColors[layer];
                         ctx.beginPath();
                         ctx.moveTo(treeX - treeWidth / 2, gameCanvasEl.height);
-                        ctx.lineTo(treeX - treeWidth/3, gameCanvasEl.height - treeHeight * 0.8);
-                        ctx.lineTo(treeX - treeWidth/1.5, gameCanvasEl.height - treeHeight * 0.7);
+                        ctx.lineTo(treeX - treeWidth/3.5, gameCanvasEl.height - treeHeight * 0.75);
                         ctx.lineTo(treeX, gameCanvasEl.height - treeHeight);
-                        ctx.lineTo(treeX + treeWidth/1.5, gameCanvasEl.height - treeHeight * 0.7);
-                        ctx.lineTo(treeX + treeWidth/3, gameCanvasEl.height - treeHeight * 0.8);
+                        ctx.lineTo(treeX + treeWidth/3.5, gameCanvasEl.height - treeHeight * 0.75);
                         ctx.lineTo(treeX + treeWidth / 2, gameCanvasEl.height);
                         ctx.closePath();
                         ctx.fill();
                     }
                 }
-                for(let i=0; i<gameCanvasEl.width*gameCanvasEl.height / 4000; i++){
-                    ctx.fillStyle = `rgba(10,20,10,${0.08 + Math.random()*0.08})`;
-                    ctx.fillRect(Math.random()*gameCanvasEl.width, gameCanvasEl.height - Math.random()*80, 3,3);
+                for(let i=0; i<gameCanvasEl.width*gameCanvasEl.height / 6000; i++){ 
+                    ctx.fillStyle = `rgba(5,10,5,${0.05 + Math.random()*0.05})`;
+                    ctx.fillRect(Math.random()*gameCanvasEl.width, gameCanvasEl.height - Math.random()*60, 2,2);
                 }
 
 
             } else if (theme === 'lava') {
                 const gradient = ctx.createRadialGradient(
-                    gameCanvasEl.width / 2, gameCanvasEl.height * 1.3, gameCanvasEl.height * 0.05, 
-                    gameCanvasEl.width / 2, gameCanvasEl.height, gameCanvasEl.height * 1.6
+                    gameCanvasEl.width / 2, gameCanvasEl.height * 1.4, gameCanvasEl.height * 0.03, 
+                    gameCanvasEl.width / 2, gameCanvasEl.height, gameCanvasEl.height * 1.7
                 );
-                gradient.addColorStop(0, '#ff5000'); 
-                gradient.addColorStop(0.25, '#c02000');
-                gradient.addColorStop(0.7, '#500000');
-                gradient.addColorStop(1, '#1a0000'); 
+                gradient.addColorStop(0, '#cc4400'); 
+                gradient.addColorStop(0.2, '#a01a00');
+                gradient.addColorStop(0.6, '#400000');
+                gradient.addColorStop(1, '#100000'); 
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
 
-                for(let i=0; i<20; i++){
+                for(let i=0; i<10; i++){ 
                     ctx.beginPath();
                     ctx.moveTo(Math.random()*gameCanvasEl.width, Math.random()*gameCanvasEl.height);
                     const endX = Math.random()*gameCanvasEl.width;
                     const endY = Math.random()*gameCanvasEl.height;
                     ctx.quadraticCurveTo(Math.random()*gameCanvasEl.width, Math.random()*gameCanvasEl.height, endX, endY);
                     
-                    ctx.shadowColor = '#ffae00';
-                    ctx.shadowBlur = 8 + Math.random()*8;
-                    ctx.strokeStyle = `rgba(255, ${80 + Math.random()*60}, 0, ${0.4 + Math.random()*0.2})`;
-                    ctx.lineWidth = 0.5 + Math.random()*2.5;
+                    ctx.shadowColor = '#ff9900'; 
+                    ctx.shadowBlur = 6 + Math.random()*6; 
+                    ctx.strokeStyle = `rgba(255, ${60 + Math.random()*60}, 0, ${0.3 + Math.random()*0.2})`; 
+                    ctx.lineWidth = 0.3 + Math.random()*1.5; 
                     ctx.stroke();
                     ctx.shadowBlur = 0; 
 
-                    ctx.strokeStyle = `rgba(0,0,0,0.7)`;
-                    ctx.lineWidth = 0.3 + Math.random()*0.8;
+                    ctx.strokeStyle = `rgba(0,0,0,0.8)`; 
+                    ctx.lineWidth = 0.2 + Math.random()*0.5;
                     ctx.stroke();
                 }
-                // 희미한 화산 연기/실루엣
-                 for(let i=0; i<3; i++){
-                    ctx.fillStyle = `rgba(50,30,30,${0.1 + Math.random()*0.1})`;
+                 for(let i=0; i<2; i++){ 
+                    ctx.fillStyle = `rgba(30,10,10,${0.08 + Math.random()*0.08})`;
                     ctx.beginPath();
                     ctx.moveTo(Math.random()*gameCanvasEl.width, gameCanvasEl.height);
-                    ctx.lineTo(Math.random()*gameCanvasEl.width, gameCanvasEl.height * (0.3 + Math.random()*0.3));
+                    ctx.lineTo(Math.random()*gameCanvasEl.width, gameCanvasEl.height * (0.4 + Math.random()*0.2));
                     ctx.lineTo(Math.random()*gameCanvasEl.width, gameCanvasEl.height);
                     ctx.closePath();
                     ctx.fill();
                 }
             }
+            ctx.restore(); // 원래 변환으로 복구 (게임 요소 그리기를 위해)
         }
 
 
@@ -2022,55 +2053,103 @@
                  numWalls = Math.floor(NUM_OBSTACLES_BASE * 0.8);
             }
 
-            for (let i = 0; i < numWalls + numBushes; i++) {
-                const isBush = currentMapTheme === 'forest' && i >= numWalls;
-                const obsType = isBush ? 'bush' : 'wall';
-                let sizeW, sizeH;
-                if (obsType === 'wall' && Math.random() < 0.4) { 
-                     if (Math.random() < 0.5) { 
-                        sizeW = Math.random() * (OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR - OBSTACLE_MAX_SIZE) + OBSTACLE_MAX_SIZE;
-                        sizeH = Math.random() * (OBSTACLE_MAX_SIZE * 0.7 - OBSTACLE_MIN_SIZE * 0.5) + OBSTACLE_MIN_SIZE * 0.5;
+            const placedObstacles = [];
+            const maxPlacementAttempts = 30; 
+
+            for (let i = 0; i < numWalls + numBushes + numPitsOrLava + NUM_SPECIAL_TERRAIN_BASE; i++) {
+                let obsType;
+                let isRoundForCollision = false;
+                let tempRadius = 0;
+
+                if (i < numWalls + numBushes) {
+                    obsType = (currentMapTheme === 'forest' && i >= numWalls) ? 'bush' : 'wall';
+                } else if (i < numWalls + numBushes + numPitsOrLava) {
+                    obsType = currentMapTheme === 'lava' ? 'lava_pool' : 'pit';
+                    isRoundForCollision = true;
+                } else {
+                    obsType = Math.random() < 0.5 ? 'swamp' : 'speed_pad';
+                }
+                
+                let sizeW, sizeH, obsX, obsY;
+                let placementAttempts = 0;
+                let collision = true;
+
+                while(collision && placementAttempts < maxPlacementAttempts) {
+                    collision = false;
+                    placementAttempts++;
+
+                    if (obsType === 'wall' && Math.random() < 0.5) { 
+                        const shortSide = Math.random() * (OBSTACLE_MAX_SIZE * 0.5 - OBSTACLE_MIN_SIZE * 0.4) + OBSTACLE_MIN_SIZE * 0.4;
+                        const longSide = Math.random() * (OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR * 0.8 - OBSTACLE_MAX_SIZE * 0.8) + OBSTACLE_MAX_SIZE * 0.8;
+                        if (Math.random() < 0.5) { 
+                            sizeW = longSide; sizeH = shortSide;
+                        } else { 
+                            sizeW = shortSide; sizeH = longSide;
+                        }
+                    } else if (obsType === 'pit' || obsType === 'lava_pool') {
+                        tempRadius = (Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE) / 2;
+                        sizeW = tempRadius * 2; sizeH = tempRadius * 2;
                     } else { 
-                        sizeW = Math.random() * (OBSTACLE_MAX_SIZE * 0.7 - OBSTACLE_MIN_SIZE * 0.5) + OBSTACLE_MIN_SIZE * 0.5;
-                        sizeH = Math.random() * (OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR - OBSTACLE_MAX_SIZE) + OBSTACLE_MAX_SIZE;
+                        sizeW = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
+                        sizeH = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
                     }
-                } else { 
-                    sizeW = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
-                    sizeH = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
+                    sizeW = Math.max(OBSTACLE_MIN_SIZE * 0.3, Math.min(sizeW, OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR));
+                    sizeH = Math.max(OBSTACLE_MIN_SIZE * 0.3, Math.min(sizeH, OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR));
+
+                    obsX = Math.random() * (gameCanvasEl.width - sizeW);
+                    obsY = Math.random() * (gameCanvasEl.height - sizeH);
+
+                    const currentObsRect = { x: obsX, y: obsY, width: sizeW, height: sizeH, isRound: isRoundForCollision, radius: tempRadius };
+                    
+                    for (const placedObs of placedObstacles) {
+                        let dist;
+                        if (currentObsRect.isRound && placedObs.isRound) { 
+                            dist = Math.hypot((currentObsRect.x + currentObsRect.width/2) - (placedObs.x + placedObs.width/2), 
+                                              (currentObsRect.y + currentObsRect.height/2) - (placedObs.y + placedObs.height/2));
+                            if (dist < currentObsRect.radius + placedObs.radius + 5) { // 5px 여유 공간
+                                collision = true; break;
+                            }
+                        } else if (currentObsRect.isRound || placedObs.isRound) { 
+                            const circle = currentObsRect.isRound ? currentObsRect : placedObs;
+                            const rect = currentObsRect.isRound ? placedObs : currentObsRect;
+                            const circleCenterX = circle.x + circle.width/2;
+                            const circleCenterY = circle.y + circle.height/2;
+                            
+                            const closestX = Math.max(rect.x, Math.min(circleCenterX, rect.x + rect.width));
+                            const closestY = Math.max(rect.y, Math.min(circleCenterY, rect.y + rect.height));
+                            dist = Math.hypot(circleCenterX - closestX, circleCenterY - closestY);
+                            if (dist < circle.radius + 2.5) { // 2.5px 여유 공간
+                                collision = true; break;
+                            }
+                        } else { 
+                            if (currentObsRect.x - 5 < placedObs.x + placedObs.width &&
+                                currentObsRect.x + currentObsRect.width + 5 > placedObs.x &&
+                                currentObsRect.y - 5 < placedObs.y + placedObs.height &&
+                                currentObsRect.y + currentObsRect.height + 5 > placedObs.y) {
+                                collision = true; break;
+                            }
+                        }
+                    }
                 }
-                sizeW = Math.max(OBSTACLE_MIN_SIZE * 0.4, Math.min(sizeW, OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR * 1.2));
-                sizeH = Math.max(OBSTACLE_MIN_SIZE * 0.4, Math.min(sizeH, OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR * 1.2));
 
+                if (!collision) {
+                    const newObstacle = new Obstacle(obsX, obsY, sizeW, sizeH, obsType, currentMapTheme);
+                    obstacles.push(newObstacle);
+                    placedObstacles.push({x: obsX, y: obsY, width: sizeW, height: sizeH, isRound: newObstacle.isRound, radius: newObstacle.radius});
 
-                const obsX = Math.random() * (gameCanvasEl.width - sizeW);
-                const obsY = Math.random() * (gameCanvasEl.height - sizeH);
-                obstacles.push(new Obstacle(obsX, obsY, sizeW, sizeH, obsType, currentMapTheme));
-                const startCol = Math.max(0, Math.floor(obsX / GRID_CELL_SIZE));
-                const endCol = Math.min(gridCols - 1, Math.floor((obsX + sizeW) / GRID_CELL_SIZE));
-                const startRow = Math.max(0, Math.floor(obsY / GRID_CELL_SIZE));
-                const endRow = Math.min(gridRows - 1, Math.floor((obsY + sizeH) / GRID_CELL_SIZE));
-                for (let r = startRow; r <= endRow; r++) {
-                    for (let c = startCol; c <= endCol; c++) {
-                        if (grid[r] && grid[r][c] !== undefined) grid[r][c] = 1; 
+                    if (obsType === 'wall' || obsType === 'bush') { 
+                        const startCol = Math.max(0, Math.floor(obsX / GRID_CELL_SIZE));
+                        const endCol = Math.min(gridCols - 1, Math.floor((obsX + sizeW) / GRID_CELL_SIZE));
+                        const startRow = Math.max(0, Math.floor(obsY / GRID_CELL_SIZE));
+                        const endRow = Math.min(gridRows - 1, Math.floor((obsY + sizeH) / GRID_CELL_SIZE));
+                        for (let r = startRow; r <= endRow; r++) {
+                            for (let c = startCol; c <= endCol; c++) {
+                                if (grid[r] && grid[r][c] !== undefined) grid[r][c] = 1; 
+                            }
+                        }
                     }
                 }
             }
-            for (let i = 0; i < numPitsOrLava; i++) {
-                const obsType = currentMapTheme === 'lava' ? 'lava_pool' : 'pit';
-                const pitRadius = (Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE) / 2;
-                const obsX = Math.random() * (gameCanvasEl.width - pitRadius*2);
-                const obsY = Math.random() * (gameCanvasEl.height - pitRadius*2);
-                obstacles.push(new Obstacle(obsX, obsY, pitRadius*2, pitRadius*2, obsType, currentMapTheme));
-            }
-            for (let i = 0; i < NUM_SPECIAL_TERRAIN_BASE; i++) {
-                const type = Math.random() < 0.5 ? 'swamp' : 'speed_pad';
-                const size = Math.random() * 20 + 40; 
-                const obsX = Math.random() * (gameCanvasEl.width - size);
-                const obsY = Math.random() * (gameCanvasEl.height - size);
-                obstacles.push(new Obstacle(obsX, obsY, size, size, type, currentMapTheme));
-            }
-
-
             items = []; 
             spawnInitialItems();
         }
@@ -2320,7 +2399,7 @@
 
         function resetGame() {
             gameOver = true; cancelAnimationFrame(gameLoopId); 
-            allPlayers = []; items = []; obstacles = []; particles = []; /* backgroundParticles는 정적이므로 유지 */ attackEffects = [];
+            allPlayers = []; items = []; obstacles = []; particles = []; attackEffects = [];
             grid = []; battleStatsLogInterval = 0; itemSpawnTimer = 0; gameStartTime = 0;
             ctx.clearRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
             participantsDisplayEl.innerHTML = ''; battleLogEl.innerHTML = '';
@@ -2395,8 +2474,6 @@
                 gameCanvasEl.width = gameCanvasEl.offsetWidth;
                 gameCanvasEl.height = gameCanvasEl.offsetHeight;
                 
-                // initBackgroundParticles(currentMapTheme, gameCanvasEl.width, gameCanvasEl.height); // 정적 배경은 다시 그리기만 하면 됨
-
                 if (oldWidth > 0 && oldHeight > 0 && allPlayers.length > 0) { 
                     const scaleX = gameCanvasEl.width / oldWidth;
                     const scaleY = gameCanvasEl.height / oldHeight;
@@ -2433,18 +2510,16 @@
                         p.path = []; 
                     });
                 } else if (allPlayers.length === 0 && currentMapTheme !== 'random') { 
-                     initGameArena(); // 게임 시작 전 리사이즈 시에도 아레나 초기화 (배경 포함)
+                     initGameArena(); 
                 }
-                // 리사이즈 후에도 현재 게임 상태를 다시 그려줌
                 if (!gameOver) { 
-                    drawBackground(currentMapTheme); // 배경 다시 그리기
-                    // backgroundParticles.forEach(p => p.draw(ctx)); // 정적 배경에서는 불필요할 수 있음
+                    drawBackground(currentMapTheme); 
                     items.forEach(i => i.draw()); 
                     obstacles.forEach(o => o.draw()); 
                     allPlayers.filter(p => p.isAlive).forEach(player => player.draw());
                     attackEffects.forEach(ae => ae.draw());
                 } else if (winnerSectionEl.style.display === 'block' || gameResultAnalysisSectionEl.style.display === 'block') { 
-                    drawBackground(currentMapTheme); // 배경 다시 그리기
+                    drawBackground(currentMapTheme); 
                     obstacles.forEach(o => o.draw());
                 }
             }
