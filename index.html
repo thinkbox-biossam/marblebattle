@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         /* 기본 스타일 초기화 */
-        body, h1, h2, p, button, textarea, label, h3, h4, div {
+        body, h1, h2, p, button, textarea, label, h3, div, fieldset, legend {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -15,12 +15,11 @@
         }
 
         body {
-            background-color: #1a1a2e; /* 어두운 남색 배경 */
-            color: #e0e0e0; /* 밝은 회색 텍스트 */
+            background-color: #1a1a2e; 
+            color: #e0e0e0; 
             display: flex;
-            flex-direction: column; /* 컨텐츠를 세로로 정렬 */
             justify-content: center;
-            align-items: center; 
+            align-items: flex-start; 
             min-height: 100vh;
             padding: 20px;
             overflow-y: auto; 
@@ -28,64 +27,86 @@
 
         .container {
             background-color: #232334; 
-            padding: 25px;
+            padding: 20px; 
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 800px; 
+            max-width: 900px; 
             text-align: center;
         }
-        
-        /* 시작 화면 스타일 */
-        #startScreen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding-top: 50px; 
-        }
-        #startScreen h1 {
-            font-size: 3em;
-            margin-bottom: 40px;
-            text-shadow: 0 0 10px #f03a78, 0 0 20px #f03a78;
-        }
-        #startScreen .start-button-group button {
-            font-size: 1.2em;
-            padding: 15px 30px;
-            margin: 10px;
-            width: 200px;
-        }
-
 
         h1 {
             color: #f03a78; 
-            margin-bottom: 25px;
-            font-size: 2.4em; 
+            margin-bottom: 20px;
+            font-size: 2.2em; 
             font-weight: 700;
             letter-spacing: 1px;
         }
 
         h2 {
             color: #7aa5ff; 
-            margin-bottom: 15px;
-            font-size: 1.6em;
+            margin-bottom: 12px;
+            font-size: 1.5em;
         }
         h3 {
             color: #9fa8da; 
-            margin-top: 15px;
-            margin-bottom: 8px;
-            font-size: 1.1em;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            font-size: 1.05em;
             text-align: left;
         }
 
-        /* 입력 섹션 */
-        .input-section {
+        /* 시작 화면 섹션 */
+        #startScreen {
             background-color: #2a2a3e;
             padding: 20px;
             border-radius: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
         }
+        #gameDescription {
+            background-color: #333343;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #d0d0ff;
+        }
+        #gameDescription h4 {
+            color: #7aa5ff;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        #mapSelection, #perkSelection {
+            margin-bottom: 15px;
+        }
+        #mapSelection h4, #perkSelection h4 {
+            color: #c0c0ff;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        #mapSelection button, .perk-button {
+            background-color: #4a4a5e;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            margin: 5px;
+            border: 1px solid transparent; 
+        }
+        #mapSelection button.selected, .perk-button.selected {
+            background-color: #7aa5ff;
+            box-shadow: 0 0 10px rgba(122, 165, 255, 0.5);
+            transform: translateY(-1px);
+            border-color: #c0c0ff;
+        }
+        .perk-description {
+            font-size: 0.8em;
+            color: #aaa;
+            display: block;
+            margin-top: 3px;
+        }
+
 
         .input-section label {
             display: block;
@@ -103,7 +124,7 @@
             background-color: #3a3a4e;
             color: #e0e0e0;
             font-size: 1em;
-            min-height: 80px;
+            min-height: 70px; 
             resize: vertical;
         }
 
@@ -115,13 +136,13 @@
         button {
             background-color: #f03a78;
             color: white;
-            padding: 10px 20px; 
+            padding: 10px 18px; 
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1em; 
+            font-size: 0.95em; 
             font-weight: 500;
-            margin-top: 15px;
+            margin-top: 10px;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 8px rgba(240, 58, 120, 0.3);
         }
@@ -150,19 +171,19 @@
 
         /* 배속 버튼 그룹 */
         .speed-controls {
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin-top: 8px;
+            margin-bottom: 15px;
         }
         .speed-controls button {
             background-color: #4a4a5e;
-            padding: 8px 15px;
-            font-size: 0.9em;
-            margin-left: 5px;
-            margin-right: 5px;
+            padding: 7px 13px;
+            font-size: 0.85em;
+            margin-left: 4px;
+            margin-right: 4px;
         }
         .speed-controls button.active {
             background-color: #7aa5ff;
-            box-shadow: 0 0 10px rgba(122, 165, 255, 0.5);
+            box-shadow: 0 0 8px rgba(122, 165, 255, 0.5);
             transform: translateY(-1px); 
         }
 
@@ -170,58 +191,68 @@
         /* 아레나 섹션 */
         .arena-section {
             background-color: #2a2a3e;
-            padding: 20px;
+            padding: 15px; 
             border-radius: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             position: relative; 
             overflow: hidden; 
         }
         
         #gameCanvas {
             width: 100%;
-            height: 400px; 
-            background: linear-gradient(135deg, #1e1e2d 0%, #2b2b40 100%); 
+            height: 450px; 
             border-radius: 8px;
             border: 1px solid #4a4a5e;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             cursor: default; 
             transition: transform 0.5s ease-out; 
+        }
+        
+        /* 플레이어 정보 및 배틀 로그 컨테이너 */
+        #gameInfoContainer {
+            display: flex;
+            flex-direction: column; 
+            gap: 15px;
         }
 
         #participantsDisplay {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px; 
+            padding: 8px;
+            background-color: #333343;
+            border-radius: 8px;
+            max-height: 150px; 
+            overflow-y: auto;
         }
 
         .participant-card {
             background-color: #3a3a4e;
             color: #c0c0ff;
-            border: 2px solid #5a5aff;
-            padding: 8px 12px; 
+            border: 1px solid #5a5aff; 
+            padding: 6px 10px; 
             border-radius: 6px;
-            min-width: 90px; 
+            min-width: 85px; 
             text-align: center;
-            font-size: 0.9em; 
+            font-size: 0.85em; 
             transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 8px rgba(90, 90, 255, 0.3);
+            box-shadow: 0 0 6px rgba(90, 90, 255, 0.2);
         }
         .participant-card .job-display { 
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: #aaa;
-            margin-top: 3px;
+            margin-top: 2px;
         }
         
         .participant-card .hp-bar-container {
-            width: 100%; height: 8px; background-color: #2c2c3a; 
-            border-radius: 4px; margin-top: 5px; overflow: hidden;
+            width: 100%; height: 7px; background-color: #2c2c3a; 
+            border-radius: 3px; margin-top: 4px; overflow: hidden;
             border: 1px solid #1e1e2d; 
         }
         .participant-card .hp-bar {
             height: 100%; width: 100%; background-color: #4caf50;
-            border-radius: 4px; transition: width 0.2s ease;
+            border-radius: 3px; transition: width 0.2s ease;
         }
          .participant-card.low-hp .hp-bar { background-color: #f44336; }
         .participant-card.eliminated {
@@ -231,56 +262,44 @@
         .participant-card.eliminated .hp-bar { width: 0% !important; }
         .participant-card.winner {
             background-color: #ffd700; color: #333; border-color: #ffc107;
-            transform: scale(1.1); font-weight: 700; animation: pulseCard 1.5s infinite;
+            transform: scale(1.05); font-weight: 700; animation: pulseCard 1.5s infinite;
         }
 
         @keyframes pulseCard {
-            0% { transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);}
-            50% { transform: scale(1.15); box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);}
-            100% { transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);}
+            0% { transform: scale(1.03); box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);}
+            50% { transform: scale(1.08); box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);}
+            100% { transform: scale(1.03); box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);}
         }
 
         /* 배틀 로그 */
         #battleLogContainer{
-            margin-top: 15px;
-            padding: 10px;
+            padding: 8px;
             background-color: #333343;
             border-radius: 8px;
+            flex-grow: 1; 
         }
         #battleLog {
-            font-size: 0.95em;
+            font-size: 0.9em; 
             color: #ffc107; 
-            min-height: 40px; 
+            min-height: 35px; 
             font-weight: 500;
             text-align: left;
-            max-height: 120px; 
+            max-height: 130px; 
             overflow-y: auto;
-            padding: 8px;
+            padding: 6px;
             background-color: #2c2c3a; 
             border-radius: 5px;
         }
       
         #battleLog p {
              animation: fadeInLog 0.3s ease;
-             margin-bottom: 4px;
+             margin-bottom: 3px; 
         }
-        .log-stats { 
-            color: #66bfff; 
-            font-style: italic;
-        }
-        .log-event { 
-             color: #ffeb3b; 
-        }
-        .log-item { 
-            color: #90ee90; 
-        }
-        .log-ultimate { 
-            color: #ff69b4; 
-            font-weight: bold;
-        }
-        .log-pit { 
-            color: #a8836b;
-        }
+        .log-stats { color: #66bfff; font-style: italic; }
+        .log-event { color: #ffeb3b; }
+        .log-item { color: #90ee90; }
+        .log-ultimate { color: #ff69b4; font-weight: bold; }
+        .log-pit, .log-terrain { color: #a8836b;}
 
 
         @keyframes fadeInLog {
@@ -288,32 +307,55 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* 우승자 섹션 */
-        .winner-section {
-            background-color: #2a2a3e; padding: 25px; border-radius: 10px;
-            margin-top: 25px; border: 2px solid #f03a78;
-            box-shadow: 0 0 20px rgba(240, 58, 120, 0.4);
+        /* 우승자 및 게임 결과 분석 섹션 */
+        .winner-section, #gameResultAnalysisSection {
+            background-color: #2a2a3e; padding: 20px; border-radius: 10px;
+            margin-top: 20px; border: 2px solid #f03a78;
+            box-shadow: 0 0 18px rgba(240, 58, 120, 0.3);
         }
         #winnerName {
-            font-size: 2.5em; color: #f03a78; font-weight: 700;
-            margin-bottom: 10px; animation: winnerPop 0.5s ease-out;
+            font-size: 2.3em; color: #f03a78; font-weight: 700;
+            margin-bottom: 8px; animation: winnerPop 0.5s ease-out;
         }
        
-        #gameStatsDisplay { 
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #333343;
-            border-radius: 8px;
-            text-align: left;
-            font-size: 0.9em;
+        #gameStatsDisplay, #detailedPlayerStats { 
+            margin-top: 15px; padding: 12px;
+            background-color: #333343; border-radius: 8px;
+            text-align: left; font-size: 0.85em;
         }
-        #gameStatsDisplay h4 {
-            color: #7aa5ff;
+        #gameStatsDisplay h4, #detailedPlayerStats h4, #sortCriteriaSelection h4 {
+            color: #7aa5ff; margin-bottom: 8px;
+        }
+        #gameStatsDisplay p, #detailedPlayerStats p {
+            margin-bottom: 4px; color: #e0e0e0;
+        }
+        .player-stat-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid #4a4a5e;
+        }
+        .player-stat-entry:last-child {
+            border-bottom: none;
+        }
+        .player-stat-entry strong {
+            color: #f0a0a0; 
+        }
+        .player-rank {
+            font-weight: bold;
+            color: #ffd700; 
+            margin-right: 5px;
+        }
+        #sortCriteriaSelection {
             margin-bottom: 10px;
         }
-        #gameStatsDisplay p {
-            margin-bottom: 5px;
-            color: #e0e0e0;
+        #sortCriteriaSelection button {
+            background-color: #4a4a5e;
+            padding: 6px 12px;
+            font-size: 0.85em;
+            margin: 0 5px;
+        }
+        #sortCriteriaSelection button.selected {
+            background-color: #7aa5ff;
+            box-shadow: 0 0 8px rgba(122, 165, 255, 0.4);
         }
         
         @keyframes winnerPop {
@@ -322,125 +364,96 @@
             100% { transform: scale(1); opacity: 1;}
         }
 
-        /* 모달 스타일 (규칙 보기, 맵 선택) */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1001; 
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.6); 
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #2a2a3e;
-            margin: 5% auto;
-            padding: 25px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 10px;
-            color: #e0e0e0;
-            text-align: left;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        .modal-content h2 { color: #7aa5ff; margin-bottom: 20px; text-align: center;}
-        .modal-content h4 { color: #c0c0ff; margin-top: 15px; margin-bottom: 5px;}
-        .modal-content p, .modal-content li { margin-bottom: 8px; line-height: 1.6; }
-        .modal-content ul { padding-left: 20px; }
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: #f03a78;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .map-selection button {
-            display: block;
-            width: 80%;
-            margin: 10px auto;
-            background-color: #4a4a5e;
-        }
-        .map-selection button:hover {
-            background-color: #5a5aff;
-        }
-
-
         /* 커스텀 알림창 */
         #customAlertModal {
             position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
-            background-color: #3a3a4e; color: white; padding: 25px;
-            border: 1px solid #f03a78; border-radius: 10px; z-index: 1002; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); width: 90%; max-width: 350px;
+            background-color: #3a3a4e; color: white; padding: 20px;
+            border: 1px solid #f03a78; border-radius: 10px; z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); width: 90%; max-width: 320px;
             text-align: center;
         }
-        #customAlertModal p { margin: 0 0 15px 0; font-size: 1.1em; line-height: 1.6; }
-        #customAlertModal button { background-color: #f03a78; padding: 10px 20px; }
+        #customAlertModal p { margin: 0 0 12px 0; font-size: 1em; line-height: 1.5; }
+        #customAlertModal button { background-color: #f03a78; padding: 8px 18px; }
         #customAlertModal button:hover { background-color: #d01a58; }
 
         /* 모바일 반응형 */
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            .container { padding: 15px; max-width: 100%;}
-            h1 { font-size: 1.8em; margin-bottom: 20px; }
-            #startScreen h1 { font-size: 2.5em; }
-            #startScreen .start-button-group button { font-size: 1em; padding: 12px 20px; width: 180px;}
+        @media (max-width: 768px) { 
+            .container { padding: 15px; }
+            h1 { font-size: 2em; }
+            #gameCanvas { height: 400px; }
+            #gameInfoContainer { flex-direction: column; } 
+            #participantsDisplay { max-height: 120px; }
+            #battleLog { max-height: 100px; }
+        }
 
-            h2 { font-size: 1.4em; }
-            h3 { font-size: 1em; }
-            #participantsInput { min-height: 70px; padding: 10px; }
-            button, button.secondary { padding: 10px 18px; font-size: 1em; margin-left: 5px; }
-            .participant-card { padding: 6px 10px; font-size: 0.8em; min-width: 70px;}
-            #winnerName { font-size: 2em; }
-            #gameCanvas { height: 300px; }
-            #battleLog { max-height: 80px; font-size: 0.9em;}
-            .modal-content { width: 90%; padding: 20px;}
+        @media (max-width: 480px) { 
+            body { padding: 10px; }
+            .container { padding: 10px;}
+            h1 { font-size: 1.7em; margin-bottom: 15px; }
+            h2 { font-size: 1.3em; }
+            h3 { font-size: 0.95em; }
+            #gameDescription { padding: 10px; font-size: 0.85em; }
+            #mapSelection button, .perk-button, #sortCriteriaSelection button { padding: 7px 12px; font-size: 0.85em; margin:3px; }
+            #participantsInput { min-height: 60px; padding: 10px; }
+            button { padding: 9px 16px; font-size: 0.9em;}
+            .participant-card { padding: 5px 8px; font-size: 0.8em; min-width: 75px;}
+            #winnerName { font-size: 1.8em; }
+            #gameCanvas { height: 300px; } 
+            #battleLog { max-height: 80px; font-size: 0.85em;}
         }
     </style>
 </head>
 <body>
-    <div id="startScreen" class="container">
+    <div class="container">
         <h1>마블배틀로얄</h1>
-        <div class="start-button-group">
-            <button id="startGameBtn">게임 시작</button>
-            <button id="selectMapBtn">맵 선택</button>
-            <button id="showRulesBtn">규칙 보기</button>
-        </div>
-    </div>
 
-    <div id="gameContainer" class="container" style="display:none;">
-        <h1>마블배틀로얄</h1>
-        <div class="input-section">
-            <label for="participantsInput">참가자 명단 (예: 아이언맨, 캡틴*3, 토르):</label>
-            <textarea id="participantsInput" rows="4" placeholder="아이언맨, 캡틴 아메리카*2, 토르, 헐크"></textarea>
-            <button id="startButton">배틀 시작!</button>
-        </div>
-        
-        <div class="speed-controls" style="display:none;">
-            <h3>게임 속도:</h3>
-            <button id="speed1x" class="active">1x</button>
-            <button id="speed2x">2x</button>
-            <button id="speed4x">4x</button>
-        </div>
-
-        <div id="arena" class="arena-section" style="display:none;">
-            <h2>배틀 아레나</h2>
-            <canvas id="gameCanvas"></canvas>
-            <div id="participantsDisplay"></div>
-            
-            <div id="battleLogContainer">
-                 <h3>실시간 배틀 로그:</h3>
-                 <div id="battleLog"></div>
+        <div id="startScreen">
+            <div id="gameDescription">
+                <h4>🚀 마블 배틀로얄에 오신 것을 환영합니다! 🚀</h4>
+                <p>최후의 1인이 될 때까지 아레나에서 격돌하세요! 각 캐릭터는 고유한 직업과 궁극기를 가지고 있습니다. 맵 곳곳에 있는 아이템을 활용하여 전투를 유리하게 이끌어보세요. 시작 전 특성을 선택하여 전략을 더할 수도 있습니다! 행운을 빕니다!</p>
+            </div>
+            <div id="mapSelection">
+                <h4>🗺️ 맵 선택 🗺️</h4>
+                <button class="map-button" data-map="default">기본</button>
+                <button class="map-button" data-map="forest">숲</button>
+                <button class="map-button" data-map="lava">용암</button>
+                <button class="map-button selected" data-map="random">무작위</button>
+            </div>
+            <div id="perkSelection">
+                <h4>✨ 특성 선택 ✨</h4>
+                <button class="perk-button selected" data-perk="none">선택 안함</button>
+                <button class="perk-button" data-perk="toughness">강인함 <span class="perk-description">(최대 체력 +15)</span></button>
+                <button class="perk-button" data-perk="swiftness">신속함 <span class="perk-description">(이동 속도 +10%)</span></button>
+                <button class="perk-button" data-perk="luck">행운 <span class="perk-description">(시작 아이템 1개)</span></button>
+            </div>
+            <div class="input-section">
+                <label for="participantsInput">참가자 명단 (예: 아이언맨, 캡틴*3, 토르):</label>
+                <textarea id="participantsInput" rows="3" placeholder="아이언맨, 캡틴 아메리카*2, 토르, 헐크"></textarea>
+                <button id="startButton">배틀 시작!</button>
             </div>
         </div>
+        
+        <div id="gameScreen" style="display:none;">
+            <div class="speed-controls">
+                <h3>게임 속도:</h3>
+                <button id="speed1x" class="active">1x</button>
+                <button id="speed1_5x">1.5x</button> 
+                <button id="speed2x">2x</button>
+            </div>
+
+            <div id="arena" class="arena-section">
+                <h2>배틀 아레나</h2>
+                <canvas id="gameCanvas"></canvas>
+            </div>
+            <div id="gameInfoContainer">
+                <div id="participantsDisplay"></div>
+                <div id="battleLogContainer">
+                    <h3>실시간 배틀 로그:</h3>
+                    <div id="battleLog"></div>
+                </div>
+            </div>
+        </div>
+
 
         <div id="winnerSection" class="winner-section" style="display:none;">
             <h2>최종 우승자!</h2>
@@ -448,70 +461,26 @@
             <div id="gameStatsDisplay"></div> 
             <button id="resetButton">다시 하기</button>
         </div>
-    </div>
-
-    <div id="rulesModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeRulesModal">&times;</span>
-            <h2>게임 규칙</h2>
-            <h4>가. 게임 목표</h4>
-            <p>최후의 1인(또는 1팀)이 될 때까지 다른 모든 플레이어를 탈락시키는 것이 목표입니다.</p>
-            <h4>나. 플레이어 기본 규칙</h4>
-            <ul>
-                <li>각 플레이어는 고유한 직업(돌격자, 버서커, 궁수, 마법사)과 그에 따른 기본 능력치, 필살기를 가집니다.</li>
-                <li>플레이어는 이동, 기본 공격, 필살기 사용이 가능합니다.</li>
-                <li>HP가 0이 되면 탈락합니다.</li>
-            </ul>
-            <h4>다. 아이템 규칙</h4>
-            <ul>
-                <li>맵에 주기적으로 다양한 효과(체력 회복, 속도 증가, 공격력 증가)를 가진 아이템이 생성됩니다.</li>
-                <li>아이템은 먼저 획득한 플레이어에게 즉시 효과가 적용됩니다.</li>
-                <li>아이템 효과는 일정 시간 동안 지속됩니다.</li>
-            </ul>
-            <h4>라. 장애물 및 지형 규칙</h4>
-            <ul>
-                <li><b>벽</b>: 통과할 수 없는 장애물입니다.</li>
-                <li><b>구덩이</b>: 빠지면 이동 속도가 감소하고 지속적인 피해를 입습니다.</li>
-                <li><b>가속 발판</b>: 밟으면 짧은 시간 동안 이동 속도가 증가합니다.</li>
-                <li><b>은신 수풀</b>: 들어가면 다른 플레이어에게 잠시 보이지 않게 됩니다.</li>
-            </ul>
-             <h4>마. 게임 진행 규칙</h4>
-            <ul>
-                <li><b>시작</b>: 모든 플레이어는 랜덤한 위치에서 시작합니다.</li>
-                <li><b>전투</b>: 자유롭게 다른 플레이어를 공격할 수 있습니다. (같은 베이스 이름을 가진 증폭된 플레이어끼리는 서로 공격하지 않습니다.)</li>
-                <li><b>클러치캠</b>: 생존자가 2~3명으로 줄어들면 시점이 자동으로 해당 플레이어들에게 집중됩니다.</li>
-                <li><b>게임 종료</b>: 최후의 1인(또는 1팀)이 남으면 게임이 종료되고, 해당 플레이어(팀)가 승리합니다.</li>
-                <li><b>통계</b>: 게임 종료 후 개인별 주요 통계(킬 수, 데미지, 아이템 사용 등)가 제공됩니다.</li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="mapSelectModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeMapModal">&times;</span>
-            <h2>맵 선택</h2>
-            <div class="map-selection">
-                <button data-map="default">기본 맵 (랜덤 장애물)</button>
-                <button data-map="narrow">좁은 길목 맵</button>
-                <button data-map="wide">넓은 광장 맵</button>
+        <div id="gameResultAnalysisSection" style="display:none;">
+            <h2>게임 결과 분석</h2>
+            <div id="sortCriteriaSelection">
+                <h4>정렬 기준:</h4>
+                <button class="sort-button selected" data-sort="survivalTime">생존 시간</button>
+                <button class="sort-button" data-sort="damageDealt">가한 데미지</button>
+                <button class="sort-button" data-sort="kills">킬 수</button>
             </div>
+            <div id="detailedPlayerStats"></div>
+             <button id="resetButtonFromAnalysis">처음으로</button>
         </div>
     </div>
-
 
     <script>
-        // DOM 요소 (일부 수정 및 추가)
+        // DOM 요소
         const startScreenEl = document.getElementById('startScreen');
-        const gameContainerEl = document.getElementById('gameContainer');
-        const startGameBtnEl = document.getElementById('startGameBtn');
-        const selectMapBtnEl = document.getElementById('selectMapBtn');
-        const showRulesBtnEl = document.getElementById('showRulesBtn');
-        const rulesModalEl = document.getElementById('rulesModal');
-        const closeRulesModalBtn = document.getElementById('closeRulesModal');
-        const mapSelectModalEl = document.getElementById('mapSelectModal');
-        const closeMapModalBtn = document.getElementById('closeMapModal');
-        const mapSelectionButtons = document.querySelectorAll('.map-selection button');
-
+        const gameScreenEl = document.getElementById('gameScreen');
+        const mapSelectionButtons = document.querySelectorAll('.map-button');
+        const perkSelectionButtons = document.querySelectorAll('.perk-button');
+        const sortCriteriaButtons = document.querySelectorAll('.sort-button'); 
         const participantsInputEl = document.getElementById('participantsInput');
         const startButtonEl = document.getElementById('startButton');
         const participantsDisplayEl = document.getElementById('participantsDisplay');
@@ -519,14 +488,17 @@
         const winnerSectionEl = document.getElementById('winnerSection');
         const winnerNameEl = document.getElementById('winnerName');
         const resetButtonEl = document.getElementById('resetButton');
+        const gameResultAnalysisSectionEl = document.getElementById('gameResultAnalysisSection');
+        const detailedPlayerStatsEl = document.getElementById('detailedPlayerStats');
+        const resetButtonFromAnalysisEl = document.getElementById('resetButtonFromAnalysis');
         const arenaSectionEl = document.getElementById('arena');
         const gameCanvasEl = document.getElementById('gameCanvas');
         const ctx = gameCanvasEl.getContext('2d');
         const gameStatsDisplayEl = document.getElementById('gameStatsDisplay');
         const speedControlsEl = document.querySelector('.speed-controls');
         const speed1xButton = document.getElementById('speed1x');
+        const speed1_5xButton = document.getElementById('speed1_5x'); 
         const speed2xButton = document.getElementById('speed2x');
-        const speed4xButton = document.getElementById('speed4x');
 
 
         // 게임 상태 변수
@@ -544,11 +516,19 @@
         let isClutchCamActive = false; 
         let lastFrameTime = 0; 
         let baseNameColors = {}; 
-        let selectedMapType = 'default'; 
+        let currentMapTheme = 'random'; 
+        let selectedMapTheme = 'random'; 
+        let selectedPerk = 'none'; 
+        let selectedSortCriterion = 'survivalTime'; 
 
-        const PLAYER_RADIUS = 8;
-        const PLAYER_HP = 100;
-        const PLAYER_SPEED_BASE = 1.2; 
+        const PLAYER_RADIUS_BASE = 8; 
+        let PLAYER_RADIUS = PLAYER_RADIUS_BASE + 4; // 플레이어 크기 증가 (12px)
+
+        const PLAYER_HP_BASE = 100; 
+        let PLAYER_HP = PLAYER_HP_BASE; 
+        const PLAYER_SPEED_BASE_VAL = 1.2; 
+        let PLAYER_SPEED_BASE = PLAYER_SPEED_BASE_VAL; 
+
         const ATTACK_POWER_BASE = 3; 
         const ATTACK_RANGE_MELEE = PLAYER_RADIUS * 3.5; 
         const ATTACK_RANGE_RANGED = PLAYER_RADIUS * 15; 
@@ -564,19 +544,19 @@
         
         const ITEM_RADIUS = 6; 
         const OBSTACLE_MIN_SIZE = 30;
-        const OBSTACLE_MAX_SIZE = 60;
+        const OBSTACLE_MAX_SIZE = 70; // 직사각형 장애물을 위해 최대 크기 약간 늘림
+        const OBSTACLE_MAX_LENGTH_FACTOR = 2.0; // 직사각형 장애물의 최대 길이 비율 (정사각형 대비)
         const NUM_OBSTACLES_BASE = 4; 
         const NUM_PITS_BASE = 2; 
-        const NUM_SPEED_PADS = 3; 
-        const NUM_BUSHES = 4; 
+        const NUM_SPECIAL_TERRAIN_BASE = 3; 
         const NUM_ITEMS_MAX = 4; 
         const ITEM_SPAWN_INTERVAL_BASE = 60 * 8; 
         let itemSpawnTimer = 0;
         const PIT_DAMAGE = 0.2; 
         const PIT_SLOW_FACTOR = 0.6; 
-        const SPEED_PAD_FACTOR = 1.8; 
+        const SWAMP_SLOW_FACTOR = 0.5;
+        const SPEED_PAD_BOOST_FACTOR = 1.8;
         const SPEED_PAD_DURATION = 120; 
-        const BUSH_OPACITY = 0.3; 
 
         const GRID_CELL_SIZE = PLAYER_RADIUS * 2.5; 
         let grid = [];
@@ -592,8 +572,11 @@
         const PREDEFINED_COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FED766', '#2AB7CA', '#F0C419', '#A2D4AB', '#F8A5C2', '#8785A2', '#FFD166', '#06D6A0', '#118AB2', '#EF476F', '#FF9F1C', '#540D6E'];
         let colorIndex = 0;
 
+        const NAME_OFFSET_Y = PLAYER_RADIUS + 10; // 이름 Y축 위치 조정 (플레이어 크기 및 원형 궁극기 게이지 고려)
+        const HP_BAR_OFFSET_Y = PLAYER_RADIUS + 2;  // HP 바 Y축 위치 조정 (플레이어 원 바로 위, 궁극기 게이지 안쪽)
 
-        // --- A* 경로 탐색 알고리즘 시작 ---
+
+        // --- A* 경로 탐색 알고리즘 (이전과 동일) ---
         class Node {
             constructor(x, y, parent = null) {
                 this.x = x; this.y = y; this.parent = parent;
@@ -618,19 +601,30 @@
                     return path.reverse(); 
                 }
                 openList.splice(lowestFIndex, 1); closedList.push(currentNode);
-                const directions = [[0, -1], [0, 1], [-1, 0], [1, 0]]; 
+                const directions = [[0, -1], [0, 1], [-1, 0], [1, 0], [-1, -1], [-1, 1], [1, -1], [1, 1]];
                 for (const dir of directions) {
                     const nodeX = currentNode.x + dir[0]; const nodeY = currentNode.y + dir[1];
                     if (!worldGrid || worldGrid.length === 0 || !worldGrid[0] ||
                         nodeX < 0 || nodeX >= worldGrid[0].length || 
                         nodeY < 0 || nodeY >= worldGrid.length || 
                         worldGrid[nodeY][nodeX] === 1) continue; 
+                    
+                    if (Math.abs(dir[0]) === 1 && Math.abs(dir[1]) === 1) {
+                        if (worldGrid[currentNode.y] && worldGrid[currentNode.y][nodeX] === 1 || 
+                            worldGrid[nodeY] && worldGrid[nodeY][currentNode.x] === 1) {
+                            continue;
+                        }
+                    }
+
                     const neighborNode = new Node(nodeX, nodeY, currentNode);
                     if (closedList.some(node => node.equals(neighborNode))) continue;
-                    neighborNode.g = currentNode.g + 1;
-                    neighborNode.h = heuristic(neighborNode, endNode);
-                    neighborNode.f = neighborNode.g + neighborNode.h;
-                    if (!openList.some(node => node.equals(neighborNode) && neighborNode.g >= node.g)) {
+                    
+                    const gScore = currentNode.g + ((dir[0] === 0 || dir[1] === 0) ? 1 : 1.414); 
+
+                    if (!openList.some(node => node.equals(neighborNode) && gScore >= node.g)) {
+                        neighborNode.g = gScore;
+                        neighborNode.h = heuristic(neighborNode, endNode);
+                        neighborNode.f = neighborNode.g + neighborNode.h;
                         openList.push(neighborNode);
                     }
                 }
@@ -639,13 +633,13 @@
         }
         // --- A* 경로 탐색 알고리즘 끝 ---
 
-        // 파티클 클래스
+        // 파티클 클래스 (이전과 동일)
         class Particle {
-            constructor(x, y, color) {
-                this.x = x; this.y = y; this.radius = Math.random() * 2 + 1;
-                this.color = color; this.life = 20 + Math.random() * 20; 
-                this.vx = (Math.random() - 0.5) * 4; 
-                this.vy = (Math.random() - 0.5) * 4;
+            constructor(x, y, color, size = Math.random() * 2 + 1, life = 20 + Math.random() * 20, vx = (Math.random() - 0.5) * 4, vy = (Math.random() - 0.5) * 4) {
+                this.x = x; this.y = y; this.radius = size;
+                this.color = color; this.life = life; 
+                this.vx = vx; 
+                this.vy = vy;
                 this.opacity = 1;
             }
             update(deltaTime) { 
@@ -660,35 +654,59 @@
                 ctx.fillStyle = this.color; ctx.fill(); ctx.restore();
             }
         }
-
-        // 공격 효과 클래스
+        
+        // 공격 효과 클래스 (반지름 오류 수정)
         class AttackEffect {
-            constructor(startX, startY, endX, endY, color, lineWidth = 1, shadowBlur = 5, type = 'line') {
+            constructor(startX, startY, endX, endY, color, lineWidth = 1, shadowBlur = 5, type = 'line', customData = {}) {
                 this.startX = startX; this.startY = startY;
                 this.endX = endX; this.endY = endY;
-                this.color = color; this.duration = ATTACK_EFFECT_DURATION / gameSpeedMultiplier; 
+                this.color = color; this.duration = (customData.duration || ATTACK_EFFECT_DURATION) / gameSpeedMultiplier; 
                 this.currentFrame = 0;
                 this.lineWidthBase = lineWidth;
                 this.shadowBlurBase = shadowBlur;
                 this.type = type; 
+                this.customData = customData;
+
                 if (type === 'projectile') {
                     this.px = startX; this.py = startY;
                     const angle = Math.atan2(endY - startY, endX - startX);
-                    this.pvx = Math.cos(angle) * 15; 
-                    this.pvy = Math.sin(angle) * 15;
-                    this.duration = Math.hypot(endX-startX, endY-startY) / 15 / gameSpeedMultiplier; 
+                    this.pvx = Math.cos(angle) * (customData.speed || 15); 
+                    this.pvy = Math.sin(angle) * (customData.speed || 15);
+                    this.duration = Math.hypot(endX-startX, endY-startY) / (customData.speed || 15) / gameSpeedMultiplier; 
+                } else if (type === 'slash') {
+                    this.angle = Math.atan2(endY - startY, endX - startX);
+                    this.radius = customData.radius || PLAYER_RADIUS * 2;
+                } else if (type === 'aura') {
+                    this.radius = 0;
+                    this.maxRadius = customData.maxRadius || PLAYER_RADIUS * 3;
+                    this.opacity = customData.opacity || 0.7;
+                } else if (type === 'magic_bolt') {
+                    this.px = startX; this.py = startY;
+                    const angle = Math.atan2(endY - startY, endX - startX);
+                    this.pvx = Math.cos(angle) * 12; 
+                    this.pvy = Math.sin(angle) * 12;
+                    this.trail = [];
+                    this.duration = Math.hypot(endX-startX, endY-startY) / 12 / gameSpeedMultiplier;
                 }
             }
             update(deltaTime) { 
                 this.currentFrame += 1 * deltaTime; 
-                if (this.type === 'projectile') {
+                if (this.type === 'projectile' || this.type === 'magic_bolt') {
                     this.px += this.pvx * deltaTime;
                     this.py += this.pvy * deltaTime;
+                    if (this.type === 'magic_bolt') {
+                        this.trail.push({x: this.px, y: this.py, opacity: 1});
+                        if (this.trail.length > 10) this.trail.shift();
+                        this.trail.forEach(p => p.opacity -= 0.1 * deltaTime);
+                    }
+                } else if (this.type === 'aura') {
+                    this.radius = (this.currentFrame / this.duration) * this.maxRadius;
+                    this.opacity = Math.max(0, (this.customData.opacity || 0.7) * (1 - this.currentFrame / this.duration));
                 }
             }
             draw() {
                 const progress = this.currentFrame / this.duration;
-                if (progress > 1 && this.type !== 'wave') return; 
+                if (progress > 1 && this.type !== 'wave' && this.type !== 'static_aoe' && this.type !== 'aura') return; 
                 ctx.save();
                 if (this.type === 'line') {
                     ctx.beginPath();
@@ -706,10 +724,61 @@
                     ctx.stroke();
                 } else if (this.type === 'projectile') {
                     ctx.beginPath();
-                    ctx.arc(this.px, this.py, PLAYER_RADIUS / 2, 0, Math.PI * 2);
+                    let projectileRadius = PLAYER_RADIUS / (this.customData.sizeFactor || 2);
+                    projectileRadius = Math.max(0.1, projectileRadius); // 반지름 음수 방지
+                    ctx.arc(this.px, this.py, projectileRadius , 0, Math.PI * 2);
                     ctx.fillStyle = this.color;
                     ctx.shadowColor = this.color; 
-                    ctx.shadowBlur = 8;
+                    ctx.shadowBlur = this.customData.shadow || 8;
+                    ctx.fill();
+                    if (this.customData.trail) { 
+                        const trailLength = 5;
+                        const baseTrailRadius = PLAYER_RADIUS / (this.customData.sizeFactor || 2);
+                        for(let i=0; i < trailLength; i++) {
+                            ctx.globalAlpha = 0.5 * (1 - i/trailLength);
+                            ctx.beginPath();
+                            let currentTrailRadius = baseTrailRadius * (1 - i/trailLength);
+                            currentTrailRadius = Math.max(0.1, currentTrailRadius); // 반지름 음수 방지
+                            ctx.arc(this.px - this.pvx * i * 0.2, this.py - this.pvy * i * 0.2, currentTrailRadius, 0, Math.PI * 2);
+                            ctx.fillStyle = this.color;
+                            ctx.fill();
+                        }
+                        ctx.globalAlpha = 1;
+                    }
+                } else if (this.type === 'slash') {
+                    ctx.beginPath();
+                    const startAngle = this.angle - Math.PI / 6;
+                    const endAngle = this.angle + Math.PI / 6;
+                    ctx.arc(this.startX, this.startY, this.radius * progress, startAngle, endAngle);
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = this.lineWidthBase * (1 - progress * 0.5);
+                    ctx.globalAlpha = 0.8 * (1 - progress);
+                    ctx.stroke();
+                } else if (this.type === 'aura') {
+                    if (this.currentFrame >= this.duration) return;
+                    ctx.beginPath();
+                    ctx.arc(this.startX, this.startY, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = this.opacity;
+                    ctx.fill();
+                } else if (this.type === 'magic_bolt') {
+                    this.trail.forEach((p, index) => {
+                        ctx.beginPath();
+                        let trailParticleRadius = PLAYER_RADIUS / 2.5 * p.opacity;
+                        trailParticleRadius = Math.max(0.1, trailParticleRadius); // 반지름 음수 방지
+                        ctx.arc(p.x, p.y, trailParticleRadius, 0, Math.PI * 2);
+                        ctx.fillStyle = this.color;
+                        ctx.globalAlpha = p.opacity * 0.7;
+                        ctx.fill();
+                    });
+                    ctx.globalAlpha = 1;
+                    ctx.beginPath();
+                    let magicBoltRadius = PLAYER_RADIUS / 2;
+                    magicBoltRadius = Math.max(0.1, magicBoltRadius); // 반지름 음수 방지
+                    ctx.arc(this.px, this.py, magicBoltRadius, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.shadowColor = this.color; 
+                    ctx.shadowBlur = 10;
                     ctx.fill();
                 }
                 ctx.restore();
@@ -717,24 +786,35 @@
         }
 
 
-        // 플레이어 클래스
+        // 플레이어 클래스 (특성 적용, AI 개선, 원형 궁극기 게이지)
         class Player {
-            constructor(name, baseId, playerColor) { 
+            constructor(name, baseId, playerColor, perk = 'none') { 
                 this.baseName = name.split('_')[0]; 
                 this.name = name; 
                 this.id = `${baseId}-${uniqueIdCounter++}`;
                 this.x = Math.random() * (gameCanvasEl.width - PLAYER_RADIUS * 2) + PLAYER_RADIUS;
                 this.y = Math.random() * (gameCanvasEl.height - PLAYER_RADIUS * 2) + PLAYER_RADIUS;
-                this.radius = PLAYER_RADIUS;
+                this.radius = PLAYER_RADIUS; 
                 const classKey = PLAYER_CLASS_KEYS[uniqueIdCounter % PLAYER_CLASS_KEYS.length];
                 this.job = PLAYER_CLASSES[classKey]; 
                 this.color = playerColor; 
                 this.originalColor = this.color; 
-                this.hp = PLAYER_HP;
-                this.maxHp = PLAYER_HP;
-                this.speed = PLAYER_SPEED_BASE;
+                
+                this.perk = perk;
+                this.hp = PLAYER_HP_BASE;
+                this.maxHp = PLAYER_HP_BASE;
+                this.speed = PLAYER_SPEED_BASE_VAL;
+                this.isHiding = false; 
+
+                if (this.perk === 'toughness') {
+                    this.hp += 15;
+                    this.maxHp += 15;
+                } else if (this.perk === 'swiftness') {
+                    this.speed *= 1.10;
+                }
+                
                 this.attackPower = ATTACK_POWER_BASE;
-                this.attackRange = this.job === PLAYER_CLASSES['궁수'] || this.job === PLAYER_CLASSES['마법사'] ? ATTACK_RANGE_RANGED : ATTACK_RANGE_MELEE;
+                this.attackRange = this.job === PLAYER_CLASSES['Archer'] || this.job === PLAYER_CLASSES['Mage'] ? ATTACK_RANGE_RANGED : ATTACK_RANGE_MELEE;
                 this.attackCooldown = 0;
                 this.target = null;
                 this.isAlive = true;
@@ -760,18 +840,18 @@
                 this.ultimatesUsed = 0; 
                 this.isInPit = false; 
                 this.pitDamageTimer = 0;
-                this.isInBush = false; 
-                this.speedPadEffectTimer = 0; 
+                this.isOnSwamp = false;
+                this.speedPadEffectTimer = 0;
+                this.berserkerAttackAnimTimer = 0; 
+                this.mageCastAnimTimer = 0; 
             }
 
-            draw() {
+            draw() { 
                 if (!this.isAlive) return; 
 
                 let displayColor = this.originalColor;
-                let currentOpacity = 1.0;
-
-                if (this.isInBush) {
-                    currentOpacity = BUSH_OPACITY;
+                if (this.isHiding) { 
+                    ctx.globalAlpha = 0.5;
                 }
 
                 if (this.isUltimateActive) {
@@ -784,9 +864,6 @@
                 } else if (this.activeItemEffects['attackBoost'] > 0) {
                     displayColor = 'orange'; 
                 }
-                
-                ctx.save();
-                ctx.globalAlpha = currentOpacity;
 
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -796,45 +873,145 @@
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
                 ctx.closePath();
-                ctx.restore(); 
+                
+                // 원형 궁극기 게이지
+                if (this.ultimateCharge > 0) {
+                    ctx.save();
+                    ctx.lineWidth = 3; 
+                    ctx.strokeStyle = '#ff00ff'; 
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius + 4, -Math.PI / 2, -Math.PI / 2 + (this.ultimateCharge / ULTIMATE_CHARGE_MAX) * (Math.PI * 2), false);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+                
+                ctx.globalAlpha = 1; 
+
+                // 직업 아이콘 그리기
+                ctx.save();
+                const iconDrawSize = this.radius * 0.8; 
+                const iconLineWidth = 1.5;
+                const iconYOffset = -this.radius * 0.1; 
+
+                if (this.job === PLAYER_CLASSES['Brawler']) { 
+                    ctx.fillStyle = '#909090'; 
+                    ctx.strokeStyle = '#505050';
+                    ctx.lineWidth = iconLineWidth;
+                    const shieldW = iconDrawSize * 0.7;
+                    const shieldH = iconDrawSize * 0.9;
+                    ctx.beginPath();
+                    ctx.rect(this.x - shieldW / 2, this.y + iconYOffset - shieldH / 2, shieldW, shieldH * 0.7); 
+                    ctx.moveTo(this.x - shieldW / 2, this.y + iconYOffset - shieldH / 2 + shieldH * 0.7);
+                    ctx.quadraticCurveTo(this.x, this.y + iconYOffset + shieldH * 0.3, this.x + shieldW / 2, this.y + iconYOffset - shieldH / 2 + shieldH * 0.7);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                } else if (this.job === PLAYER_CLASSES['Berserker']) { 
+                    ctx.fillStyle = '#e04040'; 
+                    ctx.strokeStyle = '#a00000';
+                    ctx.lineWidth = iconLineWidth;
+                    const hornH = iconDrawSize * 0.6;
+                    ctx.beginPath();
+                    ctx.moveTo(this.x - this.radius * 0.25, this.y + iconYOffset - this.radius * 0.3);
+                    ctx.lineTo(this.x - this.radius * 0.45, this.y + iconYOffset - this.radius * 0.3 - hornH);
+                    ctx.lineTo(this.x - this.radius * 0.05, this.y + iconYOffset - this.radius * 0.3 - hornH * 0.5);
+                    ctx.closePath();
+                    ctx.fill(); ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(this.x + this.radius * 0.25, this.y + iconYOffset - this.radius * 0.3);
+                    ctx.lineTo(this.x + this.radius * 0.45, this.y + iconYOffset - this.radius * 0.3 - hornH);
+                    ctx.lineTo(this.x + this.radius * 0.05, this.y + iconYOffset - this.radius * 0.3 - hornH * 0.5);
+                    ctx.closePath();
+                    ctx.fill(); ctx.stroke();
+                } else if (this.job === PLAYER_CLASSES['Archer']) { 
+                    ctx.strokeStyle = '#4CAF50'; 
+                    ctx.lineWidth = iconLineWidth;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y + iconYOffset + iconDrawSize * 0.1, iconDrawSize * 0.6, Math.PI * 0.7, Math.PI * 0.3, false); 
+                    ctx.moveTo(this.x - iconDrawSize*0.55, this.y + iconYOffset - iconDrawSize*0.3); 
+                    ctx.lineTo(this.x + iconDrawSize*0.55, this.y + iconYOffset - iconDrawSize*0.3);
+                    ctx.stroke();
+                } else if (this.job === PLAYER_CLASSES['Mage']) { 
+                    ctx.fillStyle = '#5c85d6'; 
+                    ctx.strokeStyle = '#3366cc';
+                    ctx.lineWidth = iconLineWidth;
+                    const spikes = 5;
+                    const outerR = iconDrawSize * 0.5;
+                    const innerR = iconDrawSize * 0.2;
+                    let rot = Math.PI / 2 * 3;
+                    const cx_s = this.x; 
+                    const cy_s = this.y + iconYOffset; 
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(cx_s, cy_s - outerR);
+                    for (let i = 0; i < spikes; i++) {
+                        let x1 = cx_s + Math.cos(rot) * outerR;
+                        let y1 = cy_s + Math.sin(rot) * outerR;
+                        ctx.lineTo(x1, y1);
+                        rot += Math.PI / spikes;
+
+                        let x2 = cx_s + Math.cos(rot) * innerR;
+                        let y2 = cy_s + Math.sin(rot) * innerR;
+                        ctx.lineTo(x2, y2);
+                        rot += Math.PI / spikes;
+                    }
+                    ctx.lineTo(cx_s, cy_s - outerR);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                }
+                ctx.restore();
+
+
+                if (this.job === PLAYER_CLASSES['Berserker'] && this.berserkerAttackAnimTimer > 0) {
+                    ctx.save();
+                    ctx.globalAlpha = this.berserkerAttackAnimTimer / 10 * 0.5; 
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius + (10 - this.berserkerAttackAnimTimer), 0, Math.PI * 2); 
+                    ctx.strokeStyle = 'red';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.restore();
+                    this.berserkerAttackAnimTimer--;
+                }
+                if (this.job === PLAYER_CLASSES['Mage'] && this.mageCastAnimTimer > 0) {
+                    ctx.save();
+                    const angle = (performance.now() / 100) % (Math.PI * 2);
+                    for (let i = 0; i < 3; i++) {
+                        const xOff = Math.cos(angle + (i * Math.PI * 2 / 3)) * (this.radius * 1.5);
+                        const yOff = Math.sin(angle + (i * Math.PI * 2 / 3)) * (this.radius * 1.5);
+                        ctx.beginPath();
+                        ctx.arc(this.x + xOff, this.y + yOff, this.radius / 3, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(180, 180, 255, ${0.3 + (this.mageCastAnimTimer / 15 * 0.4)})`;
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                    this.mageCastAnimTimer--;
+                }
 
 
                 const hpBarWidth = this.radius * 2.5;
                 const hpBarHeight = 5;
+                const nameY = Math.max(NAME_OFFSET_Y + this.radius, this.y - this.radius - NAME_OFFSET_Y); 
+                const hpBarActualY = Math.max(HP_BAR_OFFSET_Y + this.radius + hpBarHeight, this.y - this.radius - HP_BAR_OFFSET_Y);
 
-                if (this.ultimateCharge > 0) {
-                    const ultBarWidth = hpBarWidth; 
-                    const ultBarHeight = 4;
-                    const ultBarX = this.x - ultBarWidth / 2;
-                    const ultBarY = this.y - this.radius - hpBarHeight - ultBarHeight - 7; 
-                    ctx.fillStyle = '#505070'; 
-                    ctx.fillRect(ultBarX, ultBarY, ultBarWidth, ultBarHeight);
-                    ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.lineWidth = 0.5; ctx.strokeRect(ultBarX, ultBarY, ultBarWidth, ultBarHeight); 
-                    const currentUltWidth = (this.ultimateCharge / ULTIMATE_CHARGE_MAX) * ultBarWidth;
-                    ctx.fillStyle = '#ff00ff'; 
-                    ctx.fillRect(ultBarX, ultBarY, currentUltWidth, ultBarHeight);
-                }
 
                 ctx.fillStyle = 'white';
                 ctx.font = '14px Noto Sans KR'; 
                 ctx.textAlign = 'center';
                 ctx.shadowColor = 'black'; 
                 ctx.shadowBlur = 4; 
-                ctx.fillText(this.name, this.x, this.y - this.radius - 22); 
-                ctx.font = '10px Noto Sans KR'; 
-                ctx.fillStyle = '#cccccc';
-                ctx.fillText(`(${this.job})`, this.x, this.y - this.radius - 8); 
-
+                ctx.fillText(this.name, this.x, nameY); 
+                
                 ctx.shadowBlur = 0; 
 
                 const hpBarX = this.x - hpBarWidth / 2;
-                const hpBarY = this.y - this.radius - hpBarHeight - 3; 
                 ctx.fillStyle = '#333';
-                ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
-                ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.lineWidth = 0.5; ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight); 
+                ctx.fillRect(hpBarX, hpBarActualY, hpBarWidth, hpBarHeight);
+                ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.lineWidth = 0.5; ctx.strokeRect(hpBarX, hpBarActualY, hpBarWidth, hpBarHeight); 
                 const currentHpWidth = (this.hp / this.maxHp) * hpBarWidth;
                 ctx.fillStyle = this.hp < this.maxHp * 0.3 ? '#f44336' : (this.hp < this.maxHp * 0.6 ? '#ffc107' : '#4caf50'); 
-                ctx.fillRect(hpBarX, hpBarY, currentHpWidth, hpBarHeight);
+                ctx.fillRect(hpBarX, hpBarActualY, currentHpWidth, hpBarHeight);
             }
 
             update(players, worldGridRef, itemsArr, deltaTime) { 
@@ -857,7 +1034,9 @@
                 }
                 if (this.speedPadEffectTimer > 0) {
                     this.speedPadEffectTimer -= 1 * deltaTime;
-                    if (this.speedPadEffectTimer <= 0) this.speed = PLAYER_SPEED_BASE; 
+                    if (this.speedPadEffectTimer <= 0) {
+                        logBattleMessage(`${this.name}의 가속 발판 효과가 사라졌습니다.`, 'log-terrain');
+                    }
                 }
 
 
@@ -866,12 +1045,76 @@
                 if (this.evadeTimer > 0) this.evadeTimer -= 1 * deltaTime; else this.isEvading = false;
                 if (this.attackLungeTimer > 0) this.attackLungeTimer -= 1 * deltaTime;
 
-                this.checkPitEffects(deltaTime);
-                this.checkBushEffects();
-                this.checkSpeedPadEffects();
+                this.checkTerrainEffects(deltaTime);
+
+                this.isHiding = false; 
+                let closestBush = null;
+                let minDistToBush = Infinity;
+
+                if (this.hp < this.maxHp * 0.4) { 
+                    let closestHealthItem = null;
+                    let minDistToHealthItem = Infinity;
+                    itemsArr.forEach(item => {
+                        if (item.type === 'health') {
+                            const dist = Math.hypot(this.x - item.x, this.y - item.y);
+                            if (dist < minDistToHealthItem) {
+                                minDistToHealthItem = dist;
+                                closestHealthItem = item;
+                            }
+                        }
+                    });
+                    if (closestHealthItem) {
+                        this.target = closestHealthItem; 
+                        this.targetItem = closestHealthItem; 
+                    } else {
+                        this.findTarget(players, allPlayers); 
+                        this.targetItem = null;
+                    }
+                } else if (!this.target || !this.target.isAlive || (this.targetItem && !items.includes(this.targetItem))) { 
+                    obstacles.forEach(obs => {
+                        if (obs.type === 'bush') {
+                            const dist = Math.hypot(this.x - (obs.x + obs.width/2), this.y - (obs.y + obs.height/2));
+                            if (dist < minDistToBush) {
+                                minDistToBush = dist;
+                                closestBush = obs;
+                            }
+                        }
+                    });
+
+                    if (closestBush && minDistToBush < this.attackRange * 1.5 && Math.random() < 0.25 && this.hp > this.maxHp * 0.6) { 
+                        this.target = { x: closestBush.x + closestBush.width/2, y: closestBush.y + closestBush.height/2, isAlive: false, type: 'bush' };
+                        this.targetItem = null;
+                        if (minDistToBush < this.radius + closestBush.width/2) { 
+                            this.isHiding = true;
+                            this.attackRange = ATTACK_RANGE_MELEE * 0.6; 
+                        }
+                    } else {
+                        this.attackRange = this.job === PLAYER_CLASSES['Archer'] || this.job === PLAYER_CLASSES['Mage'] ? ATTACK_RANGE_RANGED : ATTACK_RANGE_MELEE; 
+                        let closestSpeedPad = null;
+                        let minDistToSpeedPad = Infinity;
+                        obstacles.forEach(obs => {
+                            if (obs.type === 'speed_pad') {
+                                const dist = Math.hypot(this.x - (obs.x + obs.width/2), this.y - (obs.y + obs.height/2));
+                                 if (dist < minDistToSpeedPad && dist < this.attackRange * 2) { 
+                                    minDistToSpeedPad = dist;
+                                    closestSpeedPad = obs;
+                                }
+                            }
+                        });
+                        if (closestSpeedPad && this.speedPadEffectTimer <= 0 && Math.random() < 0.3) { 
+                            this.target = { x: closestSpeedPad.x + closestSpeedPad.width/2, y: closestSpeedPad.y + closestSpeedPad.height/2, isAlive: false, type: 'speed_pad' }; 
+                            this.targetItem = null;
+                        } else {
+                            this.findTarget(players, allPlayers);
+                            this.targetItem = null;
+                        }
+                    }
+                } else {
+                     this.findTarget(players, allPlayers);
+                     this.targetItem = null;
+                }
 
 
-                this.findTarget(players); 
                 this.move(worldGridRef, deltaTime); 
                 this.checkForItemPickup(itemsArr);
 
@@ -889,75 +1132,89 @@
                 this.updateCardHP();
             }
 
-            checkPitEffects(deltaTime) {
+            checkTerrainEffects(deltaTime) { 
                 this.isInPit = false; 
+                this.isOnSwamp = false;
                 let currentSpeedFactor = 1.0;
+
+                if (this.speedPadEffectTimer > 0) {
+                    currentSpeedFactor *= SPEED_PAD_BOOST_FACTOR;
+                }
+
                 for (const obs of obstacles) {
                     if (obs.type === 'pit') {
                         const distToPitCenter = Math.hypot(this.x - (obs.x + obs.width / 2), this.y - (obs.y + obs.height / 2));
                         if (distToPitCenter < obs.radius) { 
                             this.isInPit = true;
-                            currentSpeedFactor = PIT_SLOW_FACTOR;
+                            currentSpeedFactor *= PIT_SLOW_FACTOR; 
                             this.pitDamageTimer += deltaTime;
                             if (this.pitDamageTimer >= 60 / gameSpeedMultiplier) { 
                                 this.takeDamage(PIT_DAMAGE * 60, {name: "구덩이"}); 
                                 this.pitDamageTimer = 0;
                                 logBattleMessage(`${this.name}이(가) 구덩이에 빠져 허우적댑니다! (-${(PIT_DAMAGE * 60).toFixed(1)} HP)`, 'log-pit');
                             }
-                            break; 
                         }
-                    }
-                }
-                let finalSpeed = PLAYER_SPEED_BASE * currentSpeedFactor;
-                if (this.activeItemEffects['speedBoost'] > 0 || this.speedPadEffectTimer > 0) {
-                    finalSpeed *= SPEED_PAD_FACTOR; 
-                }
-                this.speed = finalSpeed;
-
-                if (!this.isInPit) this.pitDamageTimer = 0; 
-            }
-
-            checkBushEffects() {
-                this.isInBush = false;
-                for (const obs of obstacles) {
-                    if (obs.type === 'bush') {
-                        if (this.x > obs.x && this.x < obs.x + obs.width &&
-                            this.y > obs.y && this.y < obs.y + obs.height) {
-                            this.isInBush = true;
-                            break;
+                    } else if (obs.type === 'swamp') {
+                        if (this.x > obs.x && this.x < obs.x + obs.width && this.y > obs.y && this.y < obs.y + obs.height) {
+                            this.isOnSwamp = true;
+                            currentSpeedFactor *= SWAMP_SLOW_FACTOR;
+                            if (Math.random() < 0.005 * deltaTime) { 
+                                logBattleMessage(`${this.name}이(가) 늪에 빠져 이동이 느려집니다!`, 'log-terrain');
+                            }
                         }
-                    }
-                }
-            }
-            checkSpeedPadEffects() {
-                if (this.speedPadEffectTimer > 0) return; 
-
-                for (const obs of obstacles) {
-                    if (obs.type === 'speedPad') {
-                         const distToPadCenter = Math.hypot(this.x - (obs.x + obs.width / 2), this.y - (obs.y + obs.height / 2));
-                        if (distToPadCenter < obs.width / 2) { 
+                    } else if (obs.type === 'speed_pad') {
+                         if (this.x > obs.x && this.x < obs.x + obs.width && this.y > obs.y && this.y < obs.y + obs.height && this.speedPadEffectTimer <=0) {
                             this.speedPadEffectTimer = SPEED_PAD_DURATION / gameSpeedMultiplier;
-                            this.speed = PLAYER_SPEED_BASE * SPEED_PAD_FACTOR;
-                            logBattleMessage(`${this.name}이(가) 가속 발판을 밟았습니다!`, 'log-item');
-                            break;
-                        }
+                            logBattleMessage(`💨 ${this.name}이(가) 가속 발판을 밟아 빨라집니다!`, 'log-terrain');
+                         }
+                    } else if (obs.type === 'lava_pool') { 
+                         const distToLavaCenter = Math.hypot(this.x - (obs.x + obs.width / 2), this.y - (obs.y + obs.height / 2));
+                         if (distToLavaCenter < obs.radius) {
+                            this.pitDamageTimer += deltaTime; 
+                            if (this.pitDamageTimer >= (60 / gameSpeedMultiplier) * 0.5) { 
+                                const lavaDmg = PLAYER_HP_BASE * 0.02; 
+                                this.takeDamage(lavaDmg, {name: "용암"});
+                                this.pitDamageTimer = 0;
+                                logBattleMessage(`${this.name}이(가) 용암에 발을 디뎌 화상을 입습니다! (-${lavaDmg.toFixed(1)} HP)`, 'log-terrain');
+                                for(let i=0; i<2; i++) particles.push(new Particle(this.x + (Math.random()-0.5)*this.radius, this.y + (Math.random()-0.5)*this.radius, 'orangered', 2, 15, (Math.random()-0.5)*1, -Math.random()*2)); 
+                            }
+                         }
                     }
                 }
+                let baseSpeedForCalc = PLAYER_SPEED_BASE_VAL;
+                if (this.perk === 'swiftness') baseSpeedForCalc *= 1.10;
+
+                this.speed = baseSpeedForCalc * currentSpeedFactor * (this.activeItemEffects['speedBoost'] > 0 ? 1.5 : 1);
+                if (!this.isInPit && !this.isOnSwamp) this.pitDamageTimer = 0; 
             }
             
-            findTarget(players) {
+            findTarget(players, allPlayersRef) { 
                 let bestTarget = null;
                 let highestScore = -Infinity;
                 const alivePlayerCount = players.filter(p => p.isAlive).length;
 
+                let teamAttacker = null;
+                allPlayersRef.forEach(ally => {
+                    if (ally.baseName === this.baseName && ally !== this && ally.lastAttacker && ally.lastAttacker.isAlive && ally.lastAttacker !== this) {
+                        if (!teamAttacker || ally.lastAttacker.hp < teamAttacker.hp) { 
+                            teamAttacker = ally.lastAttacker;
+                        }
+                    }
+                });
+                if (teamAttacker) {
+                    this.target = teamAttacker;
+                    return;
+                }
+
+
                 players.forEach(p => {
-                    if (p === this || !p.isAlive || p.isInBush) return; 
-                    if (p.baseName === this.baseName && p.id !== this.id) return;
+                    if (p === this || !p.isAlive) return;
+                    if (p.baseName === this.baseName && p.id !== this.id) return; 
                     
                     let score = 0;
                     const distance = Math.hypot(this.x - p.x, this.y - p.y);
                     score += (gameCanvasEl.width - distance) / 10; 
-                    score += (PLAYER_HP - p.hp) / 2; 
+                    score += (PLAYER_HP_BASE - p.hp) / 2; 
                     if (p === this.lastAttacker && this.lastAttacker.isAlive) {
                         score += 50; 
                     }
@@ -965,7 +1222,7 @@
                         score += 20;
                     }
 
-                    if (alivePlayerCount > 3 && p.hp > PLAYER_HP * 0.7) {
+                    if (alivePlayerCount > 3 && p.hp > PLAYER_HP_BASE * 0.7) {
                         score += 30; 
                     }
 
@@ -992,21 +1249,30 @@
                      targetVx = Math.cos(angleToTarget) * currentSpeed * 1.5; 
                      targetVy = Math.sin(angleToTarget) * currentSpeed * 1.5;
                 }
-                else if (this.target && this.target.isAlive) { 
+                else if (this.target) { 
+                    let targetX = this.target.x;
+                    let targetY = this.target.y;
+                    if (this.targetItem) { 
+                        targetX = this.targetItem.x;
+                        targetY = this.targetItem.y;
+                    } else if (this.target.type === 'bush' || this.target.type === 'speed_pad') { 
+                        targetX = this.target.x;
+                        targetY = this.target.y;
+                    }
+
+
                     if (this.pathfindingCooldown <= 0 && worldGridRef && worldGridRef.length > 0 && worldGridRef[0] && worldGridRef[0].length > 0) {
-                        const startGridX = Math.floor(this.x / GRID_CELL_SIZE);
-                        const startGridY = Math.floor(this.y / GRID_CELL_SIZE);
-                        const endGridX = Math.floor(this.target.x / GRID_CELL_SIZE);
-                        const endGridY = Math.floor(this.target.y / GRID_CELL_SIZE);
-                        if (startGridX >=0 && startGridY >=0 && endGridX >=0 && endGridY >=0 &&
-                            startGridX < worldGridRef[0].length && startGridY < worldGridRef.length &&
-                            endGridX < worldGridRef[0].length && endGridY < worldGridRef.length) { 
-                            if (startGridX !== endGridX || startGridY !== endGridY) {
-                                this.path = aStar(startGridX, startGridY, endGridX, endGridY, worldGridRef);
-                            } else { this.path = []; }
-                        } else {
-                            this.path = []; 
-                        }
+                        const startGridX = Math.max(0, Math.min(Math.floor(this.x / GRID_CELL_SIZE), worldGridRef[0].length -1));
+                        const startGridY = Math.max(0, Math.min(Math.floor(this.y / GRID_CELL_SIZE), worldGridRef.length -1));
+                        const endGridX = Math.max(0, Math.min(Math.floor(targetX / GRID_CELL_SIZE), worldGridRef[0].length -1));
+                        const endGridY = Math.max(0, Math.min(Math.floor(targetY / GRID_CELL_SIZE), worldGridRef.length -1));
+                        
+                        if (worldGridRef[startGridY][startGridX] === 1) { 
+                             this.path = [];
+                        } else if (startGridX !== endGridX || startGridY !== endGridY) {
+                            this.path = aStar(startGridX, startGridY, endGridX, endGridY, worldGridRef);
+                        } else { this.path = []; }
+                        
                         this.pathfindingCooldown = PATHFINDING_COOLDOWN_BASE / gameSpeedMultiplier; 
                     }
 
@@ -1021,7 +1287,7 @@
                             this.path.shift();
                         }
                     } else { 
-                        const angleToTarget = Math.atan2(this.target.y - this.y, this.target.x - this.x);
+                        const angleToTarget = Math.atan2(targetY - this.y, targetX - this.x);
                         targetVx = Math.cos(angleToTarget) * currentSpeed;
                         targetVy = Math.sin(angleToTarget) * currentSpeed;
                     }
@@ -1037,39 +1303,38 @@
                 let nextY = this.y + targetVy;
 
                 for (const obs of obstacles) {
-                    if (obs.type === 'pit' || obs.type === 'bush' || obs.type === 'speedPad') continue; 
+                    if (obs.type === 'pit' || obs.type === 'swamp' || obs.type === 'speed_pad' || obs.type === 'lava_pool') continue; 
 
-                    const futurePlayerRect = { x: nextX - this.radius, y: nextY - this.radius, width: this.radius * 2, height: this.radius * 2 };
-                    const obstacleRect = { x: obs.x, y: obs.y, width: obs.width, height: obs.height };
+                    const playerRect = { x: nextX - this.radius, y: nextY - this.radius, width: this.radius * 2, height: this.radius * 2 };
+                    const obsRect = { x: obs.x, y: obs.y, width: obs.width, height: obs.height };
 
-                    if (futurePlayerRect.x < obstacleRect.x + obstacleRect.width &&
-                        futurePlayerRect.x + futurePlayerRect.width > obstacleRect.x &&
-                        futurePlayerRect.y < obstacleRect.y + obstacleRect.height &&
-                        futurePlayerRect.y + futurePlayerRect.height > obstacleRect.y) {
+                    if (playerRect.x < obsRect.x + obsRect.width &&
+                        playerRect.x + playerRect.width > obsRect.x &&
+                        playerRect.y < obsRect.y + obsRect.height &&
+                        playerRect.y + playerRect.height > obsRect.y) {
                         
-                        const overlapX = (this.radius + obs.width / 2) - Math.abs((nextX) - (obs.x + obs.width / 2));
-                        const overlapY = (this.radius + obs.height / 2) - Math.abs((nextY) - (obs.y + obs.height / 2));
+                        const dx = (this.x - (obs.x + obs.width / 2)); 
+                        const dy = (this.y - (obs.y + obs.height / 2));
+                        const combinedHalfWidths = this.radius + obs.width / 2;
+                        const combinedHalfHeights = this.radius + obs.height / 2;
+                        const overlapX = combinedHalfWidths - Math.abs(dx);
+                        const overlapY = combinedHalfHeights - Math.abs(dy);
 
-
-                        if (overlapX > 0 && overlapY > 0) { 
-                             if (overlapX < overlapY) { 
-                                if ((nextX) < (obs.x + obs.width/2)) { 
-                                    nextX -= overlapX * 1.1; 
-                                } else { 
-                                    nextX += overlapX * 1.1;
-                                }
-                                this.vx *= -0.3; 
-                            } else { 
-                                if ((nextY) < (obs.y + obs.height/2)) { 
-                                    nextY -= overlapY * 1.1;
-                                } else { 
-                                    nextY += overlapY * 1.1;
-                                }
-                                this.vy *= -0.3;
+                        if (overlapX > 0 && overlapY > 0) {
+                            if (overlapX < overlapY) {
+                                if (dx > 0) nextX = obs.x + obs.width + this.radius + 0.1; 
+                                else nextX = obs.x - this.radius - 0.1; 
+                                this.vx *= -0.1; 
+                                targetVx = 0; 
+                            } else {
+                                if (dy > 0) nextY = obs.y + obs.height + this.radius + 0.1; 
+                                else nextY = obs.y - this.radius - 0.1; 
+                                this.vy *= -0.1;
+                                targetVy = 0;
                             }
+                            this.path = [];
+                            this.pathfindingCooldown = 0;
                         }
-                        this.path = []; 
-                        this.pathfindingCooldown = 0; 
                     }
                 }
 
@@ -1083,23 +1348,31 @@
             }
 
             attack(target) {
-                const damageDealt = this.attackPower; 
+                const damageDealt = this.attackPower * (this.activeItemEffects['attackBoost'] > 0 ? 1.5 : 1); 
                 target.takeDamage(damageDealt, this); 
                 this.damageDealt += damageDealt; 
                 this.ultimateCharge = Math.min(ULTIMATE_CHARGE_MAX, this.ultimateCharge + ULTIMATE_CHARGE_PER_HIT);
                 this.attackCooldown = ATTACK_COOLDOWN_BASE / gameSpeedMultiplier;
                 this.attackLungeTimer = 5 / gameSpeedMultiplier; 
                 
-                if (this.job === PLAYER_CLASSES['궁수'] || this.job === PLAYER_CLASSES['마법사']) {
-                    attackEffects.push(new AttackEffect(this.x, this.y, target.x, target.y, this.job === PLAYER_CLASSES['궁수'] ? 'lightgray' : 'violet', 1, 3, 'projectile'));
-                } else {
+                if (this.job === PLAYER_CLASSES['Archer']) {
+                    attackEffects.push(new AttackEffect(this.x, this.y, target.x, target.y, 'lightgray', 1, 3, 'projectile', {trail: true, sizeFactor: 2.5, speed: 18}));
+                } else if (this.job === PLAYER_CLASSES['Mage']) {
+                    this.mageCastAnimTimer = 15 / gameSpeedMultiplier; 
+                    attackEffects.push(new AttackEffect(this.x, this.y, target.x, target.y, 'violet', 1, 3, 'magic_bolt'));
+                } else if (this.job === PLAYER_CLASSES['Brawler']) {
+                    attackEffects.push(new AttackEffect(this.x, this.y, target.x, target.y, 'rgba(255, 100, 80, 0.9)', 2, 5, 'slash', {radius: PLAYER_RADIUS * 1.8}));
+                    if (Math.random() < 0.3) { 
+                        target.takeKnockback(this.x, this.y, 30);
+                        logBattleMessage(`${this.name}이(가) ${target.name}을(를) 강타하여 밀쳐냈습니다!`, 'log-event');
+                    }
+                } else if (this.job === PLAYER_CLASSES['Berserker']) {
+                    this.berserkerAttackAnimTimer = 10 / gameSpeedMultiplier; 
+                    attackEffects.push(new AttackEffect(this.x, this.y, target.x, target.y, 'rgba(255, 0, 0, 0.7)', 3, 6, 'slash', {radius: PLAYER_RADIUS * 2.2}));
+                } else { 
                     attackEffects.push(new AttackEffect(this.x, this.y, target.x, target.y, 'rgba(255, 80, 80, 0.9)'));
                 }
 
-                if (this.job === PLAYER_CLASSES['돌격자'] && Math.random() < 0.3) { 
-                    target.takeKnockback(this.x, this.y, 30);
-                    logBattleMessage(`${this.name}이(가) ${target.name}을(를) 밀쳐냈습니다!`, 'log-event');
-                }
 
                 this.isEvading = true;
                 this.evadeTimer = EVADE_DURATION_BASE / gameSpeedMultiplier;
@@ -1108,8 +1381,9 @@
 
             takeKnockback(attackerX, attackerY, power) {
                 const angle = Math.atan2(this.y - attackerY, this.x - attackerX);
-                this.vx += Math.cos(angle) * power / 5; 
-                this.vy += Math.sin(angle) * power / 5;
+                this.vx += Math.cos(angle) * power / (5 * gameSpeedMultiplier); 
+                this.vy += Math.sin(angle) * power / (5 * gameSpeedMultiplier);
+                this.path = []; 
             }
 
 
@@ -1164,11 +1438,9 @@
                     logBattleMessage(`💚 ${this.name} 플레이어가 구급상자를 발견하여 체력을 회복합니다! (HP: ${this.hp.toFixed(0)})`, 'log-item');
                 } else if (item.type === 'speedBoost') {
                     this.activeItemEffects['speedBoost'] = ITEM_EFFECT_DURATION_BASE / gameSpeedMultiplier;
-                    this.speed = PLAYER_SPEED_BASE * 1.5; 
                     logBattleMessage(`⚡ ${this.name} 플레이어가 스피드 부스트를 획득! 이동 속도가 빨라집니다!`, 'log-item');
                 } else if (item.type === 'attackBoost') {
                     this.activeItemEffects['attackBoost'] = ITEM_EFFECT_DURATION_BASE / gameSpeedMultiplier;
-                    this.attackPower = ATTACK_POWER_BASE * 1.5; 
                     logBattleMessage(`🔥 ${this.name} 플레이어가 공격력 강화 아이템을 획득! 공격력이 강력해집니다!`, 'log-item');
                 }
                 this.updateCardHP();
@@ -1176,11 +1448,9 @@
 
             removeItemEffect(effectType) {
                 if (effectType === 'speedBoost') {
-                    this.speed = PLAYER_SPEED_BASE;
-                    // logBattleMessage(`💨 ${this.name} 플레이어의 스피드 부스트 효과가 종료되었습니다.`, 'log-item'); // 너무 많은 로그 방지
+                    logBattleMessage(`💨 ${this.name} 플레이어의 스피드 부스트 효과가 종료되었습니다.`, 'log-item');
                 } else if (effectType === 'attackBoost') {
-                    this.attackPower = ATTACK_POWER_BASE;
-                    // logBattleMessage(`⚔️ ${this.name} 플레이어의 공격력 강화 효과가 종료되었습니다.`, 'log-item');
+                    logBattleMessage(`⚔️ ${this.name} 플레이어의 공격력 강화 효과가 종료되었습니다.`, 'log-item');
                 }
             }
 
@@ -1191,66 +1461,92 @@
                 this.ultimateCooldown = ULTIMATE_COOLDOWN_BASE / gameSpeedMultiplier; 
                 this.ultimatesUsed++; 
                 let ultimateName = "필살기";
-                let ultimateDamage = this.attackPower * 1.5; 
+                let ultimateDamage = this.attackPower * 1.5 * (this.activeItemEffects['attackBoost'] > 0 ? 1.5 : 1); 
                 const ultimateRange = this.radius * 6;
 
-                if (this.job === PLAYER_CLASSES['돌격자']) {
+                if (this.job === PLAYER_CLASSES['Brawler']) {
                     ultimateName = "<<지각 변동>>";
-                    ultimateDamage = this.attackPower * 1.2;
+                    ultimateDamage = this.attackPower * 1.2 * (this.activeItemEffects['attackBoost'] > 0 ? 1.5 : 1);
                     logBattleMessage(`🔨 ${this.name}(${this.job})의 필살기 ${ultimateName}! 주변 모든 적을 밀쳐내고 기절시킵니다!`, 'log-ultimate');
-                    attackEffects.push({ x: this.x, y: this.y, radius: 0, maxRadius: ultimateRange, duration: 20 / gameSpeedMultiplier, currentFrame: 0, color: 'rgba(165, 42, 42, 0.6)', type: 'wave',
-                        update: function(dt) { this.currentFrame+=dt; this.radius = (this.currentFrame / (20/gameSpeedMultiplier)) * this.maxRadius; },
-                        draw: function() { if (this.currentFrame >= (20/gameSpeedMultiplier)) return; ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.strokeStyle = this.color; ctx.lineWidth = 5; ctx.stroke(); }
+                    attackEffects.push({ 
+                        x: this.x, y: this.y, radius: 0, maxRadius: ultimateRange * 1.2, 
+                        duration: 30 / gameSpeedMultiplier, currentFrame: 0, 
+                        color: 'rgba(200, 100, 50, 0.7)', type: 'wave',
+                        lineWidth: 8,
+                        update: function(dt) { this.currentFrame+=dt; this.radius = (this.currentFrame / this.duration) * this.maxRadius; },
+                        draw: function() { 
+                            if (this.currentFrame >= this.duration) return; 
+                            ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); 
+                            ctx.strokeStyle = this.color; ctx.lineWidth = this.lineWidth * (1 - this.currentFrame/this.duration); 
+                            ctx.globalAlpha = 0.8 * (1 - this.currentFrame/this.duration);
+                            ctx.stroke(); 
+                            ctx.globalAlpha = 1;
+                        }
                     });
+                    attackEffects.push(new AttackEffect(this.x, this.y, 0, 0, 'rgba(255,150,50,0.4)', 0, 0, 'aura', {maxRadius: this.radius * 2.5, duration: 20, opacity: 0.6}));
+
                     players.forEach(p => {
                         if (p !== this && p.isAlive) {
                             const distance = Math.hypot(this.x - p.x, this.y - p.y);
                             if (distance <= ultimateRange) {
                                 p.takeDamage(ultimateDamage, this);
                                 p.takeKnockback(this.x, this.y, 80); 
-                                p.evadeTimer = 60 / gameSpeedMultiplier; 
+                                p.evadeTimer = 90 / gameSpeedMultiplier; 
                             }
                         }
                     });
-                } else if (this.job === PLAYER_CLASSES['버서커']) {
+                } else if (this.job === PLAYER_CLASSES['Berserker']) {
                     ultimateName = "<<광전사의 분노>>";
-                    this.speed *= 1.5;
-                    this.attackPower *= 1.8;
                     logBattleMessage(`😡 ${this.name}(${this.job})의 필살기 ${ultimateName}! 공격력과 속도가 폭주합니다!`, 'log-ultimate');
-                } else if (this.job === PLAYER_CLASSES['궁수']) {
+                    for(let i=0; i<10; i++) { 
+                        particles.push(new Particle(this.x, this.y, 'red', 3, 30, (Math.random()-0.5)*6, (Math.random()-0.5)*6));
+                    }
+                } else if (this.job === PLAYER_CLASSES['Archer']) {
                     ultimateName = "<<화살 폭풍>>";
-                    logBattleMessage(`🏹 ${this.name}(${this.job})의 필살기 ${ultimateName}! 여러 방향으로 화살을 난사합니다!`, 'log-ultimate');
-                    for (let i = 0; i < 8; i++) { 
-                        const angle = (i / 8) * Math.PI * 2;
-                        const endX = this.x + Math.cos(angle) * ATTACK_RANGE_RANGED;
-                        const endY = this.y + Math.sin(angle) * ATTACK_RANGE_RANGED;
-                        attackEffects.push(new AttackEffect(this.x, this.y, endX, endY, 'silver', 2, 5, 'projectile'));
-                        players.forEach(p => {
-                            if (p !== this && p.isAlive && Math.hypot(p.x - this.x, p.y - this.y) < ATTACK_RANGE_RANGED * 0.7) { 
-                                p.takeDamage(this.attackPower * 0.5, this); 
+                    logBattleMessage(`🏹 ${this.name}(${this.job})의 필살기 ${ultimateName}! 여러 방향으로 강화된 화살을 난사합니다!`, 'log-ultimate');
+                    const numArrows = 12;
+                    for (let i = 0; i < numArrows; i++) { 
+                        const angle = (i / numArrows) * Math.PI * 2 + (Math.random() - 0.5) * 0.2; 
+                        const endX = this.x + Math.cos(angle) * ATTACK_RANGE_RANGED * 1.2; 
+                        const endY = this.y + Math.sin(angle) * ATTACK_RANGE_RANGED * 1.2;
+                        attackEffects.push(new AttackEffect(this.x, this.y, endX, endY, 'cyan', 2, 8, 'projectile', {trail: true, sizeFactor: 1.8, speed: 22, shadow: 12}));
+                        players.forEach(p => { 
+                            if (p !== this && p.isAlive && Math.hypot(p.x - this.x, p.y - this.y) < ATTACK_RANGE_RANGED * 0.8) { 
+                                p.takeDamage(this.attackPower * 0.6 * (this.activeItemEffects['attackBoost'] > 0 ? 1.5 : 1), this); 
                             }
                         });
                     }
-                } else if (this.job === PLAYER_CLASSES['마법사']) {
+                } else if (this.job === PLAYER_CLASSES['Mage']) {
                     ultimateName = "<<얼음 폭풍>>";
-                    const stormRadius = this.radius * 10;
-                    logBattleMessage(`❄️ ${this.name}(${this.job})의 필살기 ${ultimateName}! 지정 범위에 얼음 폭풍을 소환합니다!`, 'log-ultimate');
-                     attackEffects.push({ x: this.x, y: this.y, radius: stormRadius, duration: ULTIMATE_DURATION_BASE / gameSpeedMultiplier, currentFrame: 0, color: 'rgba(173, 216, 230, 0.3)', type: 'static_aoe',
+                    const stormRadius = this.radius * 12; 
+                    logBattleMessage(`❄️ ${this.name}(${this.job})의 필살기 ${ultimateName}! 지정 범위에 강력한 얼음 폭풍을 소환합니다!`, 'log-ultimate');
+                     attackEffects.push({ 
+                        x: this.x, y: this.y, radius: stormRadius, 
+                        duration: ULTIMATE_DURATION_BASE / gameSpeedMultiplier, currentFrame: 0, 
+                        color: 'rgba(100, 150, 255, 0.2)', type: 'static_aoe',
                         update: function(dt) { this.currentFrame+=dt; },
                         draw: function() { 
                             if (this.currentFrame >= this.duration) return;
-                            const alpha = 0.3 + Math.sin(this.currentFrame * 0.1) * 0.1;
+                            const alphaBase = 0.2;
+                            const pulse = Math.sin(this.currentFrame * 0.1) * 0.1;
                             ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); 
-                            ctx.fillStyle = `rgba(173, 216, 230, ${alpha})`; ctx.fill(); 
+                            ctx.fillStyle = `rgba(100, 150, 255, ${alphaBase + pulse})`; ctx.fill(); 
+                            if (this.currentFrame % (10 / gameSpeedMultiplier) < 1) { 
+                                for(let i=0; i < 3; i++) {
+                                    const rA = Math.random() * Math.PI * 2;
+                                    const rD = Math.random() * this.radius * 0.8;
+                                    particles.push(new Particle(this.x + Math.cos(rA)*rD, this.y + Math.sin(rA)*rD, 'white', Math.random()*1.5+0.5, 15, 0,0));
+                                }
+                            }
                         }
                     });
                     players.forEach(p => {
                         if (p !== this && p.isAlive) {
                             const distance = Math.hypot(this.x - p.x, this.y - p.y);
                             if (distance <= stormRadius) {
-                                p.takeDamage(ultimateDamage * 0.1, this); 
-                                p.speed *= 0.7; 
-                                setTimeout(() => { if(p.isAlive) p.speed = PLAYER_SPEED_BASE; }, ULTIMATE_DURATION_BASE / gameSpeedMultiplier * 1000/60); 
+                                p.takeDamage(ultimateDamage * 0.15, this); 
+                                p.speed *= 0.6; 
+                                setTimeout(() => { if(p.isAlive) p.speed = PLAYER_SPEED_BASE_VAL * (p.perk === 'swiftness' ? 1.10 : 1) ; }, ULTIMATE_DURATION_BASE / gameSpeedMultiplier * 1000/60); 
                             }
                         }
                     });
@@ -1258,10 +1554,7 @@
             }
             deactivateUltimate() {
                 this.isUltimateActive = false;
-                if (this.job === PLAYER_CLASSES['버서커']) { 
-                    this.speed = PLAYER_SPEED_BASE;
-                    this.attackPower = ATTACK_POWER_BASE;
-                }
+                logBattleMessage(`✨ ${this.name} 플레이어의 필살기 효과가 종료되었습니다.`, 'log-ultimate');
             }
             
             updateCardHP() {
@@ -1279,7 +1572,7 @@
             }
         }
 
-        // 아이템 클래스
+        // 아이템 클래스 (이전과 동일)
         class Item {
             constructor(x, y, type) {
                 this.x = x; this.y = y; this.radius = ITEM_RADIUS;
@@ -1313,108 +1606,296 @@
             }
         }
 
-        // 장애물 클래스
+        // 장애물 클래스 (그래픽 및 다양성 개선)
         class Obstacle {
-            constructor(x, y, width, height, type = 'wall') { 
+            constructor(x, y, width, height, type = 'wall', theme = 'default') { 
                 this.x = x; this.y = y; this.width = width; this.height = height;
                 this.type = type;
-                if (type === 'pit') {
-                    this.color = `hsl(30, 25%, ${Math.random()*10 + 20}%)`; 
-                    this.isRound = true; 
-                    this.radius = Math.min(width, height) / 2; 
-                } else if (type === 'bush') {
-                    this.color = `rgba(34, 139, 34, 0.7)`; 
-                    this.isRound = false;
-                } else if (type === 'speedPad') {
-                    this.color = `rgba(0, 191, 255, 0.5)`; 
-                    this.isRound = true;
-                    this.radius = Math.min(width, height) / 2;
-                }
-                else {
-                    this.color = `hsl(230, 20%, ${Math.random()*10 + 35}%)`; 
-                    this.isRound = false;
+                this.theme = theme;
+                this.isRound = false;
+                this.radius = 0; 
+                this.animationOffset = Math.random() * 1000; 
+                this.noiseSeed = Math.random() * 10000; 
+
+                switch(type) {
+                    case 'pit':
+                        this.color = `hsl(210, 35%, ${8 + Math.random()*4}%)`; 
+                        this.isRound = true; 
+                        this.radius = Math.min(width, height) / 2; 
+                        break;
+                    case 'swamp':
+                        this.color = `hsl(100, 40%, ${18 + Math.random()*7}%)`; 
+                        break;
+                    case 'speed_pad':
+                        this.color = `hsl(180, 85%, 50%)`; 
+                        break;
+                    case 'bush': 
+                        this.color = `hsl(120, 60%, ${22 + Math.random()*8}%)`; 
+                        this.leaves = []; 
+                        for(let i=0; i<8 + Math.random()*7; i++){ 
+                            this.leaves.push({
+                                offsetX: (Math.random() - 0.5) * width * 0.7,
+                                offsetY: (Math.random() - 0.5) * height * 0.7,
+                                radius: Math.random() * (width/4) + (width/8), 
+                                color: `hsl(120, 55%, ${25 + Math.random()*20}%)`
+                            });
+                        }
+                        break;
+                    case 'lava_pool': 
+                        this.color = `hsl(25, 95%, ${30 + Math.random()*8}%)`; 
+                        this.isRound = true;
+                        this.radius = Math.min(width, height) / 2;
+                        break;
+                    default: // wall
+                        if (theme === 'forest') this.color = `hsl(30, 40%, ${30 + Math.random()*8}%)`; 
+                        else if (theme === 'lava') this.color = `hsl(0, 0%, ${12 + Math.random()*4}%)`; 
+                        else this.color = `hsl(230, 18%, ${28 + Math.random()*8}%)`; 
                 }
             }
+            simpleNoise(val) {
+                const x = Math.sin(val * 12.9898 + this.noiseSeed) * 43758.5453;
+                return (x - Math.floor(x)) * 0.5 + 0.25; 
+            }
+
             draw() {
+                ctx.save();
                 ctx.fillStyle = this.color; 
-                ctx.strokeStyle = `hsl(230, 25%, ${Math.random()*5 + (this.type === 'pit' ? 25 : 50)}%)`; 
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = `hsl(230, 20%, ${Math.random()*5 + (this.type === 'pit' ? 15 : 40)}%)`; 
+                ctx.lineWidth = (this.type === 'pit' || this.type === 'lava_pool' || this.type === 'swamp') ? 0 : 2.5; 
+
                 ctx.beginPath();
-                if (this.isRound) {
+                if (this.isRound) { 
                     ctx.arc(this.x + this.width/2, this.y + this.height/2, this.radius, 0, Math.PI * 2);
-                    if (this.type === 'pit') {
-                        ctx.fillStyle = `hsla(30, 25%, 15%, 0.7)`; 
-                        ctx.fill();
-                        ctx.beginPath();
-                        ctx.arc(this.x + this.width/2, this.y + this.height/2, this.radius * 0.7, 0, Math.PI * 2);
-                        ctx.fillStyle = `hsla(30, 25%, 10%, 0.8)`; 
-                        ctx.fill();
-                    } else {
-                         ctx.fill();
+                    ctx.fill();
+                    if (this.type === 'pit') { 
+                        for (let i = 1; i < 5; i++) { 
+                            ctx.beginPath();
+                            ctx.globalAlpha = 0.1 * (5-i);
+                            ctx.fillStyle = `hsl(210, 30%, ${3 + i*1.5}%)`;
+                            ctx.arc(this.x + this.width/2, this.y + this.height/2, this.radius * (1 - i*0.12), 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                        ctx.globalAlpha = 1;
                     }
-                } else {
-                    const r = 8; 
-                    ctx.moveTo(this.x + r, this.y);
-                    ctx.lineTo(this.x + this.width - r, this.y);
+                } else if (this.type === 'speed_pad') { 
+                    const r = 10; 
+                    ctx.moveTo(this.x + r, this.y); ctx.lineTo(this.x + this.width - r, this.y);
                     ctx.quadraticCurveTo(this.x + this.width, this.y, this.x + this.width, this.y + r);
                     ctx.lineTo(this.x + this.width, this.y + this.height - r);
                     ctx.quadraticCurveTo(this.x + this.width, this.y + this.height, this.x + this.width - r, this.y + this.height);
                     ctx.lineTo(this.x + r, this.y + this.height);
                     ctx.quadraticCurveTo(this.x, this.y + this.height, this.x, this.y + this.height - r);
-                    ctx.lineTo(this.x, this.y + r);
-                    ctx.quadraticCurveTo(this.x, this.y, this.x + r, this.y);
+                    ctx.lineTo(this.x, this.y + r); ctx.quadraticCurveTo(this.x, this.y, this.x + r, this.y);
                     ctx.closePath();
                     ctx.fill();
-                    if (this.type === 'wall') ctx.stroke(); 
+                    
+                    ctx.fillStyle = 'rgba(220, 255, 255, 0.8)'; 
+                    const arrowCount = Math.max(1, Math.floor(this.height / 20)); 
+                    const arrowHeight = this.height * 0.15;
+                    const arrowWidth = this.width * 0.4;
+                    const arrowSpacing = this.height / (arrowCount + 1);
+                    const animOffset = (performance.now() + this.animationOffset) / 15 % arrowSpacing;
+                    for (let i = 0; i < arrowCount + 1; i++) {
+                        const yPos = this.y + i * arrowSpacing - animOffset + arrowSpacing / 2;
+                        if (yPos > this.y + arrowHeight*0.5 && yPos < this.y + this.height - arrowHeight*0.5) {
+                            ctx.beginPath();
+                            ctx.moveTo(this.x + this.width / 2 - arrowWidth / 2, yPos + arrowHeight / 2);
+                            ctx.lineTo(this.x + this.width / 2 + arrowWidth / 2, yPos + arrowHeight / 2);
+                            ctx.lineTo(this.x + this.width / 2, yPos - arrowHeight / 2);
+                            ctx.closePath();
+                            ctx.fill();
+                        }
+                    }
+                } else { 
+                    const r = (this.type === 'bush') ? this.width/2.5 : 6; 
+                    ctx.moveTo(this.x + r, this.y); ctx.lineTo(this.x + this.width - r, this.y);
+                    ctx.quadraticCurveTo(this.x + this.width, this.y, this.x + this.width, this.y + r);
+                    ctx.lineTo(this.x + this.width, this.y + this.height - r);
+                    ctx.quadraticCurveTo(this.x + this.width, this.y + this.height, this.x + this.width - r, this.y + this.height);
+                    ctx.lineTo(this.x + r, this.y + this.height);
+                    ctx.quadraticCurveTo(this.x, this.y + this.height, this.x, this.y + this.height - r);
+                    ctx.lineTo(this.x, this.y + r); ctx.quadraticCurveTo(this.x, this.y, this.x + r, this.y);
+                    ctx.closePath();
+                    ctx.fill();
+                    if (this.type !== 'swamp') ctx.stroke(); 
+
+                    if (this.type === 'wall') { 
+                        ctx.save();
+                        ctx.clip(); 
+                        for(let i=0; i< this.width * this.height / 200; i++){ 
+                            const tx = this.x + Math.random() * this.width;
+                            const ty = this.y + Math.random() * this.height;
+                            const brightness = this.simpleNoise(tx * 0.05 + ty * 0.02);
+                            ctx.fillStyle = `rgba(0,0,0,${0.08 + brightness * 0.12})`; 
+                            ctx.fillRect(tx, ty, 2 + Math.random()*2, 2 + Math.random()*2); 
+                        }
+                        ctx.restore();
+                    }
+                     if (this.type === 'bush') { 
+                        this.leaves.forEach(leaf => {
+                            ctx.beginPath();
+                            ctx.fillStyle = leaf.color;
+                            ctx.arc(this.x + this.width/2 + leaf.offsetX, this.y + this.height/2 + leaf.offsetY, leaf.radius * (0.8 + Math.random()*0.4) , 0, Math.PI*2); 
+                            ctx.fill();
+                        });
+                    }
+                }
+                ctx.restore();
+
+                if (this.type === 'lava_pool') { 
+                    ctx.save();
+                    const numBubbles = 8 + Math.floor(this.radius / 8); 
+                    for (let i=0; i<numBubbles; i++) {
+                        const angle = (performance.now() / (800 + i*80 + this.animationOffset) + i*0.7) % (Math.PI*2);
+                        const dist = Math.random() * this.radius * 0.85;
+                        const bubbleX = this.x + this.width/2 + Math.cos(angle) * dist;
+                        const bubbleY = this.y + this.height/2 + Math.sin(angle) * dist;
+                        const bubbleR = Math.random() * (this.radius/8) + 3; 
+                        ctx.globalAlpha = 0.5 + Math.sin(performance.now() / (250 + i*40)) * 0.3;
+                        ctx.fillStyle = `hsl(30, 100%, ${60 + Math.random()*10}%)`; 
+                        ctx.beginPath();
+                        ctx.arc(bubbleX, bubbleY, bubbleR, 0, Math.PI*2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                } else if (this.type === 'swamp') { 
+                    ctx.save();
+                     if (Math.random() < 0.04) { 
+                        const bubbleX = this.x + Math.random() * this.width;
+                        const bubbleY = this.y + Math.random() * this.height;
+                        const bubbleR = Math.random() * 4 + 2; 
+                        particles.push(new Particle(bubbleX, bubbleY, `hsla(100, 30%, 10%, 0.6)`, bubbleR, 35 + Math.random()*25, 0, -0.15 - Math.random()*0.25));
+                    }
+                    for(let i=0; i < 5; i++) {
+                        ctx.fillStyle = `hsla(100, 30%, ${15 + Math.random()*5}%, ${0.1 + Math.random()*0.1})`;
+                        ctx.beginPath();
+                        ctx.ellipse(this.x + Math.random()*this.width, this.y + Math.random()*this.height, Math.random()*this.width*0.2, Math.random()*this.height*0.15, Math.random()*Math.PI, 0, Math.PI*2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
                 }
             }
         }
         
+        // 배경 그리기 함수 (정적 이미지 스타일로 변경)
+        function drawBackground(theme) {
+            ctx.clearRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
 
-        // 게임 초기화 및 시작
-        function initializeGameScreen() {
-            startScreenEl.style.display = 'none';
-            gameContainerEl.style.display = 'block';
-            arenaSectionEl.style.display = 'none'; 
-            winnerSectionEl.style.display = 'none';
-            speedControlsEl.style.display = 'none';
+            if (theme === 'default') {
+                const gradient = ctx.createLinearGradient(0, 0, 0, gameCanvasEl.height);
+                gradient.addColorStop(0, '#0a0a18'); // 더 깊은 우주색
+                gradient.addColorStop(1, '#18182c');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
+
+                for (let i = 0; i < 200; i++) { 
+                    const x = Math.random() * gameCanvasEl.width;
+                    const y = Math.random() * gameCanvasEl.height;
+                    const radius = Math.random() * 1.0 + 0.2; // 별 크기 미세 조정
+                    const alpha = Math.random() * 0.5 + 0.1; // 별 밝기 다양화
+                    ctx.fillStyle = `rgba(255, 255, 230, ${alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.save();
+                ctx.globalAlpha = 0.03; // 성운 더 희미하게
+                for(let i=0; i<2; i++){ // 성운 개수 줄임
+                    ctx.fillStyle = `hsla(${190 + Math.random()*60}, 60%, 50%, 0.4)`;
+                    ctx.beginPath();
+                    ctx.arc(Math.random()*gameCanvasEl.width, Math.random()*gameCanvasEl.height, Math.random()*gameCanvasEl.width/4 + gameCanvasEl.width/5, 0, Math.PI*2);
+                    ctx.fill();
+                }
+                ctx.restore();
+
+            } else if (theme === 'forest') {
+                const gradient = ctx.createLinearGradient(0, 0, 0, gameCanvasEl.height);
+                gradient.addColorStop(0, '#101810'); 
+                gradient.addColorStop(0.5, '#1d2a1d');
+                gradient.addColorStop(1, '#283828'); 
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
+
+                const treeColors = ['#152515', '#1c301c', '#223822'];
+                for (let layer = 0; layer < 3; layer++) {
+                    for (let i = 0; i < 12 - layer * 3; i++) {
+                        const treeX = (i * (gameCanvasEl.width / (11 - layer*3))) + (Math.random() - 0.5) * 40;
+                        const treeHeight = gameCanvasEl.height * (0.3 + Math.random() * 0.4 + layer * 0.05);
+                        const treeWidth = 30 + Math.random() * 25 + layer * 8;
+                        ctx.fillStyle = treeColors[layer];
+                        ctx.beginPath();
+                        ctx.moveTo(treeX - treeWidth / 2, gameCanvasEl.height);
+                        ctx.lineTo(treeX - treeWidth/3, gameCanvasEl.height - treeHeight * 0.8);
+                        ctx.lineTo(treeX - treeWidth/1.5, gameCanvasEl.height - treeHeight * 0.7);
+                        ctx.lineTo(treeX, gameCanvasEl.height - treeHeight);
+                        ctx.lineTo(treeX + treeWidth/1.5, gameCanvasEl.height - treeHeight * 0.7);
+                        ctx.lineTo(treeX + treeWidth/3, gameCanvasEl.height - treeHeight * 0.8);
+                        ctx.lineTo(treeX + treeWidth / 2, gameCanvasEl.height);
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                }
+                for(let i=0; i<gameCanvasEl.width*gameCanvasEl.height / 4000; i++){
+                    ctx.fillStyle = `rgba(10,20,10,${0.08 + Math.random()*0.08})`;
+                    ctx.fillRect(Math.random()*gameCanvasEl.width, gameCanvasEl.height - Math.random()*80, 3,3);
+                }
+
+
+            } else if (theme === 'lava') {
+                const gradient = ctx.createRadialGradient(
+                    gameCanvasEl.width / 2, gameCanvasEl.height * 1.3, gameCanvasEl.height * 0.05, 
+                    gameCanvasEl.width / 2, gameCanvasEl.height, gameCanvasEl.height * 1.6
+                );
+                gradient.addColorStop(0, '#ff5000'); 
+                gradient.addColorStop(0.25, '#c02000');
+                gradient.addColorStop(0.7, '#500000');
+                gradient.addColorStop(1, '#1a0000'); 
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
+
+                for(let i=0; i<20; i++){
+                    ctx.beginPath();
+                    ctx.moveTo(Math.random()*gameCanvasEl.width, Math.random()*gameCanvasEl.height);
+                    const endX = Math.random()*gameCanvasEl.width;
+                    const endY = Math.random()*gameCanvasEl.height;
+                    ctx.quadraticCurveTo(Math.random()*gameCanvasEl.width, Math.random()*gameCanvasEl.height, endX, endY);
+                    
+                    ctx.shadowColor = '#ffae00';
+                    ctx.shadowBlur = 8 + Math.random()*8;
+                    ctx.strokeStyle = `rgba(255, ${80 + Math.random()*60}, 0, ${0.4 + Math.random()*0.2})`;
+                    ctx.lineWidth = 0.5 + Math.random()*2.5;
+                    ctx.stroke();
+                    ctx.shadowBlur = 0; 
+
+                    ctx.strokeStyle = `rgba(0,0,0,0.7)`;
+                    ctx.lineWidth = 0.3 + Math.random()*0.8;
+                    ctx.stroke();
+                }
+                // 희미한 화산 연기/실루엣
+                 for(let i=0; i<3; i++){
+                    ctx.fillStyle = `rgba(50,30,30,${0.1 + Math.random()*0.1})`;
+                    ctx.beginPath();
+                    ctx.moveTo(Math.random()*gameCanvasEl.width, gameCanvasEl.height);
+                    ctx.lineTo(Math.random()*gameCanvasEl.width, gameCanvasEl.height * (0.3 + Math.random()*0.3));
+                    ctx.lineTo(Math.random()*gameCanvasEl.width, gameCanvasEl.height);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
         }
 
-        startGameBtnEl.addEventListener('click', () => {
-            initializeGameScreen();
-            if (!selectedMapType) selectedMapType = 'default'; 
-        });
 
-        showRulesBtnEl.addEventListener('click', () => {
-            rulesModalEl.style.display = 'block';
-        });
-        closeRulesModalBtn.addEventListener('click', () => {
-            rulesModalEl.style.display = 'none';
-        });
-
-        selectMapBtnEl.addEventListener('click', () => {
-            mapSelectModalEl.style.display = 'block';
-        });
-        closeMapModalBtn.addEventListener('click', () => {
-            mapSelectModalEl.style.display = 'none';
-        });
-        mapSelectionButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                selectedMapType = event.target.dataset.map;
-                mapSelectModalEl.style.display = 'none';
-                initializeGameScreen(); 
-                logBattleMessage(`맵 선택: ${event.target.textContent}`, 'log-event');
-            });
-        });
-        window.addEventListener('click', (event) => { 
-            if (event.target == rulesModalEl) rulesModalEl.style.display = "none";
-            if (event.target == mapSelectModalEl) mapSelectModalEl.style.display = "none";
-        });
-
-
+        // 게임 초기화 및 시작
         function setupBattle() {
             const namesString = participantsInputEl.value.trim();
             if (!namesString) { alertUser("참가자 명단을 입력해주세요!"); return; }
+            
+            startScreenEl.style.display = 'none';
+            gameScreenEl.style.display = 'block';
+            winnerSectionEl.style.display = 'none'; 
+            gameResultAnalysisSectionEl.style.display = 'none';
+
+
             const parsedNames = [];
             baseNameColors = {}; 
             colorIndex = 0; 
@@ -1444,24 +1925,41 @@
                 }
             });
             if (parsedNames.length === 0 || (parsedNames.length === 1 && parsedNames[0] === "")) {
-                 alertUser("유효한 참가자가 없습니다. 이름을 다시 입력해주세요."); return;
+                 alertUser("유효한 참가자가 없습니다. 이름을 다시 입력해주세요."); 
+                 startScreenEl.style.display = 'block';
+                 gameScreenEl.style.display = 'none';
+                 return;
             }
             gameOver = false; uniqueIdCounter = 0; particles = []; attackEffects = [];
             battleStatsLogInterval = 0; itemSpawnTimer = 0;
-            arenaSectionEl.style.display = 'block';
-            speedControlsEl.style.display = 'block'; 
             gameStartTime = Date.now(); 
+
+            if (selectedMapTheme === 'random') {
+                const themes = ['default', 'forest', 'lava'];
+                currentMapTheme = themes[Math.floor(Math.random() * themes.length)];
+            } else {
+                currentMapTheme = selectedMapTheme;
+            }
+            
             requestAnimationFrame(() => {
                 initGameArena(); 
                 allPlayers = parsedNames.map((name, index) => {
                     const baseName = name.split('_')[0];
-                    return new Player(name, `p${index}`, baseNameColors[baseName] || `hsl(${Math.random() * 360}, 80%, 60%)`);
+                    return new Player(name, `p${index}`, baseNameColors[baseName] || `hsl(${Math.random() * 360}, 80%, 60%)`, selectedPerk);
                 });
+                allPlayers.forEach(player => {
+                    if (player.perk === 'luck') {
+                        const itemTypes = ['health', 'speedBoost', 'attackBoost'];
+                        const randomItemType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
+                        player.applyItemEffect({type: randomItemType}); 
+                        logBattleMessage(`🍀 ${player.name}이(가) 행운 특성으로 시작 아이템(${randomItemType})을 획득했습니다!`, 'log-item');
+                    }
+                });
+
                 displayParticipantCards();
-                winnerSectionEl.style.display = 'none'; 
                 gameStatsDisplayEl.innerHTML = ''; 
                 battleLogEl.innerHTML = ''; 
-                logBattleMessage('⚔️ 아레나의 문이 열렸습니다! 전투 시작! ⚔️', 'log-event');
+                logBattleMessage(`⚔️ ${currentMapTheme === 'default' ? '기본' : currentMapTheme === 'forest' ? '숲' : '용암'} 아레나의 문이 열렸습니다! 전투 시작! ⚔️`, 'log-event');
                 startButtonEl.disabled = true; participantsInputEl.disabled = true;
                 if (allPlayers.length === 1) {
                     setTimeout(() => declareWinner(allPlayers[0]), 1000 / gameSpeedMultiplier);
@@ -1485,7 +1983,7 @@
 
                 const jobSpan = document.createElement('span');
                 jobSpan.classList.add('job-display');
-                jobSpan.textContent = `(${player.job})`;
+                jobSpan.textContent = `(${player.job})`; 
                 card.appendChild(jobSpan);
 
                 const hpBarContainer = document.createElement('div');
@@ -1503,6 +2001,7 @@
         function initGameArena() {
             gameCanvasEl.width = gameCanvasEl.offsetWidth; 
             gameCanvasEl.height = gameCanvasEl.offsetHeight;
+            
             const gridCols = Math.floor(gameCanvasEl.width / GRID_CELL_SIZE);
             const gridRows = Math.floor(gameCanvasEl.height / GRID_CELL_SIZE);
             if (gridRows <= 0 || gridCols <= 0) {
@@ -1510,66 +2009,65 @@
             }
             grid = Array(gridRows).fill(null).map(() => Array(gridCols).fill(0));
             obstacles = [];
-
-            if (selectedMapType === 'narrow') {
-                const passageWidthCells = 5; // 통로 너비 (셀 단위)
-                const passageWidthPixels = passageWidthCells * GRID_CELL_SIZE;
-                const wallWidthPixels = (gameCanvasEl.width - passageWidthPixels) / 2;
-
-                if (wallWidthPixels > 0) {
-                    obstacles.push(new Obstacle(0, 0, wallWidthPixels, gameCanvasEl.height, 'wall'));
-                    obstacles.push(new Obstacle(wallWidthPixels + passageWidthPixels, 0, wallWidthPixels, gameCanvasEl.height, 'wall'));
-                }
-                for (let i = 0; i < 3; i++) {
-                    const size = OBSTACLE_MIN_SIZE;
-                    obstacles.push(new Obstacle(wallWidthPixels + Math.random()*(passageWidthPixels - size), Math.random()*(gameCanvasEl.height - size), size, size, 'wall'));
-                }
-            } else if (selectedMapType === 'wide') {
-                for (let i = 0; i < NUM_OBSTACLES_BASE - 2; i++) {
-                    const sizeW = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
-                    const sizeH = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
-                    let obsX, obsY;
-                    do {
-                        obsX = Math.random() * (gameCanvasEl.width - sizeW);
-                        obsY = Math.random() * (gameCanvasEl.height - sizeH);
-                    } while (obsX > gameCanvasEl.width * 0.3 && obsX < gameCanvasEl.width * 0.7 &&
-                             obsY > gameCanvasEl.height * 0.3 && obsY < gameCanvasEl.height * 0.7);
-                    obstacles.push(new Obstacle(obsX, obsY, sizeW, sizeH, 'wall'));
-                }
-            } else { 
-                for (let i = 0; i < NUM_OBSTACLES_BASE; i++) {
-                    const sizeW = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
-                    const sizeH = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
-                    const obsX = Math.random() * (gameCanvasEl.width - sizeW);
-                    const obsY = Math.random() * (gameCanvasEl.height - sizeH);
-                    obstacles.push(new Obstacle(obsX, obsY, sizeW, sizeH, 'wall'));
-                }
-            }
             
-            obstacles.filter(o => o.type === 'wall').forEach(obs => {
-                const startCol = Math.max(0, Math.floor(obs.x / GRID_CELL_SIZE));
-                const endCol = Math.min(gridCols - 1, Math.floor((obs.x + obs.width) / GRID_CELL_SIZE));
-                const startRow = Math.max(0, Math.floor(obs.y / GRID_CELL_SIZE));
-                const endRow = Math.min(gridRows - 1, Math.floor((obs.y + obs.height) / GRID_CELL_SIZE));
+            let numWalls = NUM_OBSTACLES_BASE;
+            let numPitsOrLava = NUM_PITS_BASE;
+            let numBushes = 0;
+
+            if (currentMapTheme === 'forest') {
+                numWalls = Math.floor(NUM_OBSTACLES_BASE * 0.6);
+                numBushes = NUM_OBSTACLES_BASE - numWalls + 2; 
+            } else if (currentMapTheme === 'lava') {
+                 numPitsOrLava = NUM_PITS_BASE + 1; 
+                 numWalls = Math.floor(NUM_OBSTACLES_BASE * 0.8);
+            }
+
+            for (let i = 0; i < numWalls + numBushes; i++) {
+                const isBush = currentMapTheme === 'forest' && i >= numWalls;
+                const obsType = isBush ? 'bush' : 'wall';
+                let sizeW, sizeH;
+                if (obsType === 'wall' && Math.random() < 0.4) { 
+                     if (Math.random() < 0.5) { 
+                        sizeW = Math.random() * (OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR - OBSTACLE_MAX_SIZE) + OBSTACLE_MAX_SIZE;
+                        sizeH = Math.random() * (OBSTACLE_MAX_SIZE * 0.7 - OBSTACLE_MIN_SIZE * 0.5) + OBSTACLE_MIN_SIZE * 0.5;
+                    } else { 
+                        sizeW = Math.random() * (OBSTACLE_MAX_SIZE * 0.7 - OBSTACLE_MIN_SIZE * 0.5) + OBSTACLE_MIN_SIZE * 0.5;
+                        sizeH = Math.random() * (OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR - OBSTACLE_MAX_SIZE) + OBSTACLE_MAX_SIZE;
+                    }
+                } else { 
+                    sizeW = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
+                    sizeH = Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
+                }
+                sizeW = Math.max(OBSTACLE_MIN_SIZE * 0.4, Math.min(sizeW, OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR * 1.2));
+                sizeH = Math.max(OBSTACLE_MIN_SIZE * 0.4, Math.min(sizeH, OBSTACLE_MAX_SIZE * OBSTACLE_MAX_LENGTH_FACTOR * 1.2));
+
+
+                const obsX = Math.random() * (gameCanvasEl.width - sizeW);
+                const obsY = Math.random() * (gameCanvasEl.height - sizeH);
+                obstacles.push(new Obstacle(obsX, obsY, sizeW, sizeH, obsType, currentMapTheme));
+                const startCol = Math.max(0, Math.floor(obsX / GRID_CELL_SIZE));
+                const endCol = Math.min(gridCols - 1, Math.floor((obsX + sizeW) / GRID_CELL_SIZE));
+                const startRow = Math.max(0, Math.floor(obsY / GRID_CELL_SIZE));
+                const endRow = Math.min(gridRows - 1, Math.floor((obsY + sizeH) / GRID_CELL_SIZE));
                 for (let r = startRow; r <= endRow; r++) {
                     for (let c = startCol; c <= endCol; c++) {
                         if (grid[r] && grid[r][c] !== undefined) grid[r][c] = 1; 
                     }
                 }
-            });
-
-
-            for (let i = 0; i < NUM_PITS_BASE; i++) {
+            }
+            for (let i = 0; i < numPitsOrLava; i++) {
+                const obsType = currentMapTheme === 'lava' ? 'lava_pool' : 'pit';
                 const pitRadius = (Math.random() * (OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE) / 2;
-                obstacles.push(new Obstacle(Math.random() * (gameCanvasEl.width - pitRadius*2), Math.random() * (gameCanvasEl.height - pitRadius*2), pitRadius*2, pitRadius*2, 'pit'));
+                const obsX = Math.random() * (gameCanvasEl.width - pitRadius*2);
+                const obsY = Math.random() * (gameCanvasEl.height - pitRadius*2);
+                obstacles.push(new Obstacle(obsX, obsY, pitRadius*2, pitRadius*2, obsType, currentMapTheme));
             }
-            for (let i = 0; i < NUM_SPEED_PADS; i++) {
-                const padSize = PLAYER_RADIUS * 3;
-                obstacles.push(new Obstacle(Math.random()*(gameCanvasEl.width - padSize), Math.random()*(gameCanvasEl.height - padSize), padSize, padSize, 'speedPad'));
-            }
-            for (let i = 0; i < NUM_BUSHES; i++) {
-                const bushSize = PLAYER_RADIUS * 5;
-                obstacles.push(new Obstacle(Math.random()*(gameCanvasEl.width - bushSize), Math.random()*(gameCanvasEl.height - bushSize), bushSize, bushSize, 'bush'));
+            for (let i = 0; i < NUM_SPECIAL_TERRAIN_BASE; i++) {
+                const type = Math.random() < 0.5 ? 'swamp' : 'speed_pad';
+                const size = Math.random() * 20 + 40; 
+                const obsX = Math.random() * (gameCanvasEl.width - size);
+                const obsY = Math.random() * (gameCanvasEl.height - size);
+                obstacles.push(new Obstacle(obsX, obsY, size, size, type, currentMapTheme));
             }
 
 
@@ -1618,7 +2116,8 @@
 
 
             ctx.save(); 
-            ctx.clearRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
+            drawBackground(currentMapTheme); 
+
 
             const alivePlayers = allPlayers.filter(p => p.isAlive);
             
@@ -1646,24 +2145,26 @@
             }
             
             items.forEach(i => { i.update(deltaTime); i.draw(); }); 
-            obstacles.forEach(o => o.draw());
+            obstacles.forEach(o => o.draw()); 
             
             for (let i = particles.length - 1; i >= 0; i--) {
                 particles[i].update(deltaTime); particles[i].draw(); 
                 if (particles[i].life <= 0) particles.splice(i, 1);
             }
+            
+            alivePlayers.forEach(player => { 
+                player.update(allPlayers, grid, items, deltaTime); player.draw(); 
+            });
+
             for (let i = attackEffects.length - 1; i >= 0; i--) {
                 attackEffects[i].update(deltaTime); attackEffects[i].draw(); 
-                if (attackEffects[i].currentFrame >= attackEffects[i].duration && (!attackEffects[i].type || attackEffects[i].type !== 'wave')) { 
+                if (attackEffects[i].currentFrame >= attackEffects[i].duration && 
+                    (!attackEffects[i].type || (attackEffects[i].type !== 'wave' && attackEffects[i].type !== 'static_aoe' && attackEffects[i].type !== 'aura'))) { 
                     attackEffects.splice(i, 1);
-                } else if (attackEffects[i].type === 'wave' && attackEffects[i].currentFrame >= attackEffects[i].duration) {
+                } else if ((attackEffects[i].type === 'wave' || attackEffects[i].type === 'static_aoe' || attackEffects[i].type === 'aura') && attackEffects[i].currentFrame >= attackEffects[i].duration) {
                      attackEffects.splice(i, 1);
                 }
             }
-            
-            alivePlayers.forEach(player => {
-                player.update(allPlayers, grid, items, deltaTime); player.draw(); 
-            });
             
             ctx.restore(); 
 
@@ -1696,8 +2197,8 @@
                         declareWinner(alivePlayers[0]);
                     } else { 
                         logBattleMessage('모든 참가자가 동시에 탈락했습니다! 아쉬운 무승부입니다.', 'log-event');
-                        // resetGameComponents()는 declareWinner 또는 resetGame에서 처리
-                        displayGameStats(); 
+                        resetGameComponents();
+                        displayGameAnalysis(); 
                     }
                 }
             }
@@ -1718,27 +2219,63 @@
 
 
         function declareWinner(winner) {
-            if (winnerSectionEl.style.display === 'block' && gameOver) return; 
+            if (winnerSectionEl.style.display === 'block') return; 
             gameOver = true; cancelAnimationFrame(gameLoopId); 
             
             const winnerDisplayName = winner.baseName; 
             logBattleMessage(`👑 ${winnerDisplayName} 선수가 최후의 1인으로 등극했습니다! 대단합니다! 👑`, 'log-event');
             winnerNameEl.textContent = winnerDisplayName;
             winnerSectionEl.style.display = 'block';
+            gameScreenEl.style.display = 'none'; 
             
-            // resetGameComponents() 호출을 여기서 제거하고, resetGame()에서만 호출하도록 합니다.
-            // 게임 종료 시 필요한 UI 상태 유지를 위함.
-            speedControlsEl.style.display = 'none'; 
-            gameCanvasEl.style.transform = ''; 
-            isClutchCamActive = false;
-            startButtonEl.disabled = true; // 게임 종료 후 시작 버튼 비활성화 유지
-            participantsInputEl.disabled = true; // 게임 종료 후 입력창 비활성화 유지
-
-            displayGameStats(); 
+            resetGameComponents(); 
+            displayGameAnalysis(); 
         }
 
-        function displayGameStats() {
-            gameStatsDisplayEl.innerHTML = '<h4>📊 게임 통계 📊</h4>';
+        function displayGameAnalysis() { 
+            gameResultAnalysisSectionEl.style.display = 'block';
+            detailedPlayerStatsEl.innerHTML = '<h4>📊 상세 플레이어 통계 📊</h4>';
+            
+            if (selectedSortCriterion === 'survivalTime') {
+                allPlayers.sort((a,b) => b.survivalTime - a.survivalTime || b.kills - a.kills || b.damageDealt - a.damageDealt); 
+            } else if (selectedSortCriterion === 'damageDealt') {
+                allPlayers.sort((a,b) => b.damageDealt - a.damageDealt || b.survivalTime - a.survivalTime || b.kills - a.kills);
+            } else if (selectedSortCriterion === 'kills') {
+                allPlayers.sort((a,b) => b.kills - a.kills || b.survivalTime - a.survivalTime || b.damageDealt - a.damageDealt);
+            }
+
+
+            allPlayers.forEach((p, index) => { 
+                const survivalMinutes = Math.floor(p.survivalTime / (60 * 60)); 
+                const survivalSeconds = Math.floor((p.survivalTime / 60) % 60);
+                const timeString = `${survivalMinutes}분 ${survivalSeconds}초`;
+
+                let perkText = "없음";
+                if (p.perk === 'toughness') perkText = "강인함";
+                else if (p.perk === 'swiftness') perkText = "신속함";
+                else if (p.perk === 'luck') perkText = "행운";
+
+                const entry = document.createElement('div');
+                entry.classList.add('player-stat-entry');
+                entry.innerHTML = `
+                    <p><span class="player-rank">${index + 1}.</span> <strong>${p.name}</strong> (${p.job}) - ${p.isAlive ? "생존" : "탈락"}</p>
+                    <p>선택 특성: ${perkText}</p>
+                    <p>생존 시간: ${timeString}</p>
+                    <p>킬 수: ${p.kills}</p>
+                    <p>준 피해량: ${p.damageDealt.toFixed(0)}</p>
+                    <p>아이템 사용: ${p.itemsUsed}개</p>
+                    <p>궁극기 사용: ${p.ultimatesUsed}회</p>
+                `;
+                detailedPlayerStatsEl.appendChild(entry);
+            });
+
+            if (winnerSectionEl.style.display === 'block') {
+                 displayGameMVPStats();
+            }
+        }
+        
+        function displayGameMVPStats() { 
+            gameStatsDisplayEl.innerHTML = '<h4>🏆 MVP 통계 🏆</h4>';
             let maxKills = -1; 
             let mvpByKills = '-';
             allPlayers.forEach(p => {
@@ -1747,7 +2284,9 @@
                     mvpByKills = p.name;
                 }
             });
-            gameStatsDisplayEl.innerHTML += `<p>최다 킬: ${mvpByKills} (${maxKills}킬)</p>`;
+            if (maxKills > 0) gameStatsDisplayEl.innerHTML += `<p>최다 킬: ${mvpByKills} (${maxKills}킬)</p>`;
+            else gameStatsDisplayEl.innerHTML += `<p>최다 킬: 해당 없음</p>`;
+
 
             let maxDamage = 0;
             let mvpByDamage = '-';
@@ -1757,39 +2296,15 @@
                     mvpByDamage = p.name;
                 }
             });
-            gameStatsDisplayEl.innerHTML += `<p>최고 데미지: ${mvpByDamage} (${maxDamage.toFixed(0)} 데미지)</p>`;
-            
-            let maxItemsUsed = -1;
-            let mvpByItems = '-';
-            allPlayers.forEach(p => {
-                if (p.itemsUsed > maxItemsUsed) {
-                    maxItemsUsed = p.itemsUsed;
-                    mvpByItems = p.name;
-                }
-            });
-            gameStatsDisplayEl.innerHTML += `<p>최다 아이템 사용: ${mvpByItems} (${maxItemsUsed}개)</p>`;
-
-            let maxUltimatesUsed = -1;
-            let mvpByUltimates = '-';
-             allPlayers.forEach(p => {
-                if (p.ultimatesUsed > maxUltimatesUsed) {
-                    maxUltimatesUsed = p.ultimatesUsed;
-                    mvpByUltimates = p.name;
-                }
-            });
-            gameStatsDisplayEl.innerHTML += `<p>최다 필살기 사용: ${mvpByUltimates} (${maxUltimatesUsed}회)</p>`;
+             if (maxDamage > 0) gameStatsDisplayEl.innerHTML += `<p>최고 데미지: ${mvpByDamage} (${maxDamage.toFixed(0)} 데미지)</p>`;
+             else gameStatsDisplayEl.innerHTML += `<p>최고 데미지: 해당 없음</p>`;
         }
         
-        function resetGameComponents() { // 게임 UI를 초기 상태로 되돌리는 함수
+        function resetGameComponents() {
             startButtonEl.disabled = false;
             participantsInputEl.disabled = false;
-            speedControlsEl.style.display = 'none'; 
             gameCanvasEl.style.transform = ''; 
             isClutchCamActive = false;
-            startScreenEl.style.display = 'flex'; 
-            gameContainerEl.style.display = 'none'; 
-            winnerSectionEl.style.display = 'none'; // 우승자 섹션도 숨김
-            arenaSectionEl.style.display = 'none'; // 아레나 섹션 숨김
         }
 
         function logBattleMessage(message, type = '') { 
@@ -1803,23 +2318,23 @@
             battleLogEl.scrollTop = battleLogEl.scrollHeight; 
         }
 
-        function resetGame() { // 게임 전체를 리셋하고 시작 화면으로 돌아가는 함수
+        function resetGame() {
             gameOver = true; cancelAnimationFrame(gameLoopId); 
-            allPlayers = []; items = []; obstacles = []; particles = []; attackEffects = [];
+            allPlayers = []; items = []; obstacles = []; particles = []; /* backgroundParticles는 정적이므로 유지 */ attackEffects = [];
             grid = []; battleStatsLogInterval = 0; itemSpawnTimer = 0; gameStartTime = 0;
-            baseNameColors = {}; colorIndex = 0; // 색상 맵 초기화
-            selectedMapType = 'default'; // 맵 선택 초기화
-            gameSpeedMultiplier = 1; // 게임 속도 초기화
-            setActiveSpeedButton(1); // 배속 버튼 UI 초기화
-
-            if (ctx) { // ctx가 유효할 때만 clearRect 호출
-                 ctx.clearRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
-            }
+            ctx.clearRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
             participantsDisplayEl.innerHTML = ''; battleLogEl.innerHTML = '';
+            winnerSectionEl.style.display = 'none';
+            gameResultAnalysisSectionEl.style.display = 'none'; 
             winnerNameEl.textContent = ''; 
             gameStatsDisplayEl.innerHTML = ''; 
+            detailedPlayerStatsEl.innerHTML = '';
             participantsInputEl.value = ''; 
-            resetGameComponents(); // UI를 시작 화면 상태로
+            
+            startScreenEl.style.display = 'block'; 
+            gameScreenEl.style.display = 'none'; 
+
+            resetGameComponents();
         }
         
         function alertUser(message) {
@@ -1832,28 +2347,56 @@
             document.getElementById('customAlertOk').addEventListener('click', () => modal.remove());
         }
 
-        // 배속 버튼 이벤트 리스너
+        mapSelectionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                mapSelectionButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                selectedMapTheme = button.dataset.map;
+            });
+        });
+        perkSelectionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                perkSelectionButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                selectedPerk = button.dataset.perk;
+            });
+        });
+        sortCriteriaButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                sortCriteriaButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                selectedSortCriterion = button.dataset.sort;
+                if (allPlayers.length > 0) { 
+                    displayGameAnalysis();
+                }
+            });
+        });
+
+
         function setActiveSpeedButton(speed) {
-            [speed1xButton, speed2xButton, speed4xButton].forEach(btn => btn.classList.remove('active'));
+            [speed1xButton, speed1_5xButton, speed2xButton].forEach(btn => btn.classList.remove('active'));
             if (speed === 1) speed1xButton.classList.add('active');
+            else if (speed === 1.5) speed1_5xButton.classList.add('active');
             else if (speed === 2) speed2xButton.classList.add('active');
-            else if (speed === 4) speed4xButton.classList.add('active');
         }
         speed1xButton.addEventListener('click', () => { gameSpeedMultiplier = 1; setActiveSpeedButton(1); });
+        speed1_5xButton.addEventListener('click', () => { gameSpeedMultiplier = 1.5; setActiveSpeedButton(1.5); });
         speed2xButton.addEventListener('click', () => { gameSpeedMultiplier = 2; setActiveSpeedButton(2); });
-        speed4xButton.addEventListener('click', () => { gameSpeedMultiplier = 4; setActiveSpeedButton(4); });
 
 
-        // 이벤트 리스너
         startButtonEl.addEventListener('click', setupBattle);
         resetButtonEl.addEventListener('click', resetGame);
+        resetButtonFromAnalysisEl.addEventListener('click', resetGame); 
         
         window.addEventListener('resize', () => {
-            if (arenaSectionEl.style.display === 'block' && gameCanvasEl.offsetParent !== null) { 
+            if (gameScreenEl.style.display === 'block' && gameCanvasEl.offsetParent !== null) { 
                 const oldWidth = gameCanvasEl.width;
                 const oldHeight = gameCanvasEl.height;
                 gameCanvasEl.width = gameCanvasEl.offsetWidth;
                 gameCanvasEl.height = gameCanvasEl.offsetHeight;
+                
+                // initBackgroundParticles(currentMapTheme, gameCanvasEl.width, gameCanvasEl.height); // 정적 배경은 다시 그리기만 하면 됨
+
                 if (oldWidth > 0 && oldHeight > 0 && allPlayers.length > 0) { 
                     const scaleX = gameCanvasEl.width / oldWidth;
                     const scaleY = gameCanvasEl.height / oldHeight;
@@ -1863,16 +2406,17 @@
                         grid = Array(newGridRows).fill(null).map(() => Array(newGridCols).fill(0));
                         obstacles.forEach(o => { 
                             o.x *= scaleX; o.y *= scaleY; o.width *= scaleX; o.height *= scaleY;
-                            if (o.isRound) o.radius *= Math.min(scaleX, scaleY); 
                             o.x = Math.max(0, Math.min(o.x, gameCanvasEl.width - o.width));
                             o.y = Math.max(0, Math.min(o.y, gameCanvasEl.height - o.height));
+                            if (o.isRound) o.radius = Math.min(o.width, o.height) / 2;
+
                             const startCol = Math.max(0, Math.floor(o.x / GRID_CELL_SIZE));
                             const endCol = Math.min(newGridCols - 1, Math.floor((o.x + o.width) / GRID_CELL_SIZE));
                             const startRow = Math.max(0, Math.floor(o.y / GRID_CELL_SIZE));
                             const endRow = Math.min(newGridRows - 1, Math.floor((o.y + o.height) / GRID_CELL_SIZE));
                             for (let r = startRow; r <= endRow; r++) {
                                 for (let c = startCol; c <= endCol; c++) {
-                                    if (grid[r] && grid[r][c] !== undefined && o.type === 'wall') grid[r][c] = 1; 
+                                    if (grid[r] && grid[r][c] !== undefined && o.type !== 'pit' && o.type !== 'swamp' && o.type !== 'speed_pad' && o.type !== 'lava_pool') grid[r][c] = 1;
                                 }
                             }
                         });
@@ -1888,13 +2432,19 @@
                         p.y = Math.max(p.radius, Math.min(p.y, gameCanvasEl.height - p.radius));
                         p.path = []; 
                     });
-                } else if (allPlayers.length === 0) { initGameArena(); }
+                } else if (allPlayers.length === 0 && currentMapTheme !== 'random') { 
+                     initGameArena(); // 게임 시작 전 리사이즈 시에도 아레나 초기화 (배경 포함)
+                }
+                // 리사이즈 후에도 현재 게임 상태를 다시 그려줌
                 if (!gameOver) { 
-                    ctx.clearRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
-                    items.forEach(i => i.draw()); obstacles.forEach(o => o.draw()); 
+                    drawBackground(currentMapTheme); // 배경 다시 그리기
+                    // backgroundParticles.forEach(p => p.draw(ctx)); // 정적 배경에서는 불필요할 수 있음
+                    items.forEach(i => i.draw()); 
+                    obstacles.forEach(o => o.draw()); 
                     allPlayers.filter(p => p.isAlive).forEach(player => player.draw());
-                } else if (winnerSectionEl.style.display === 'block') { 
-                    ctx.clearRect(0, 0, gameCanvasEl.width, gameCanvasEl.height);
+                    attackEffects.forEach(ae => ae.draw());
+                } else if (winnerSectionEl.style.display === 'block' || gameResultAnalysisSectionEl.style.display === 'block') { 
+                    drawBackground(currentMapTheme); // 배경 다시 그리기
                     obstacles.forEach(o => o.draw());
                 }
             }
